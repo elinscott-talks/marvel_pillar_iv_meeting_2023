@@ -65,7 +65,7 @@
 \renewbibmacro{in:}{}
 \DeclareFieldFormat{pages}{\mkfirstpage{#1}}
 \beamertemplatenavigationsymbolsempty
-\bibliography{zotero_library.bib}
+\bibliography{references.bib}
 \setbeamertemplate{bibliography item}[text]
 \renewbibmacro{in:}{}
 \AtEveryBibitem{\clearfield{title}}
@@ -326,8 +326,11 @@
 
   \vspace{2.5em}
   \begin{center} 
-  \LARGE
-  \textbf{Accurate charged and neutral excitations \\ with Koopmans functionals}
+  \huge
+  \textbf{Koopmans functionals}
+
+  \normalsize
+  \textbf{accurately and efficiently predicting spectral properties \\ with a functional formulation}
   \end{center}
   \end{minipage}
   \end{tcolorbox}
@@ -335,7 +338,7 @@
   \vspace{-2em}
   \begin{tcolorbox}[width=\paperwidth, enhanced, colback=kgrey, grow to left by=0.035\paperwidth,]
   \begin{center}
-  \footnotesize \bf \insertauthor\quad | \quad\insertshortinstitute\quad | \quad9th TDDFT Workshop, Benasque\quad|\quad \insertdate    
+  \footnotesize \bf \insertauthor\quad | \quad\insertshortinstitute\quad | \quad CECAM flagship workshop, Lausanne\quad|\quad \insertdate    
   \end{center}
   %  \end{flushright}
   \end{tcolorbox}
@@ -354,7 +357,7 @@
 \title{\noindent\large{an open-source package for accurately predicting spectral properties}}
 \author{Edward Linscott}
 \institute{EPFL}
-\date{25 Oct 2022}
+\date{25 Aug 2023}
 \begin{document}
 
 \frame{\titlepage}
@@ -370,7 +373,7 @@
    Koopmans can be used to replace GW when calculating neutral excitations with BSE
 
    \vspace{1em}
-   We have recently released \texttt{koopmans}, a package that contains everything necessary to run calculations using Koopmans functionals without expert knowledge
+   We have released \texttt{koopmans}, a package that contains everything necessary to run calculations using Koopmans functionals without expert knowledge
 
    % Koopmans functionals are a class of functionals that aim to reproduce spectral properties (charged excitations) and total energies on the same footing by enforcing a generalized piecewise linearity condition.
 
@@ -751,6 +754,24 @@
    %       \end{tcolorbox}
    %    \end{flushright}
    % }
+
+\end{frame}
+
+\begin{frame}{Recent advances}
+   The general workflow:
+   \begin{itemize}
+      \item define/initialize a set of variational orbitals
+      \item calculate the screening parameters $\{\alpha_i\}$
+      \item construct and diagonalize the Hamiltonian
+   \end{itemize}
+
+   Recent advances make some of these steps a lot easier...
+\end{frame}
+
+\begin{frame}{Automated Wannierization}
+
+   \cite{Qiao2023}
+   \cite{Qiao2023a}
 
 \end{frame}
 
