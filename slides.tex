@@ -370,9 +370,6 @@
    As a result they give band structures and orbital energies comparable to state-of-the-art GW
 
    \vspace{1em}
-   Koopmans can be used to replace GW when calculating neutral excitations with BSE
-
-   \vspace{1em}
    We have released \texttt{koopmans}, a package that contains everything necessary to run calculations using Koopmans functionals without expert knowledge
 
    % Koopmans functionals are a class of functionals that aim to reproduce spectral properties (charged excitations) and total energies on the same footing by enforcing a generalized piecewise linearity condition.
@@ -426,34 +423,63 @@
          Goal: spectral properties (charged excitations) with a functional theory
 
          \onslide<2->{
-            Core idea: for every orbital $i$ their energy
-            \begin{equation*}
-               \varepsilon^\mathsf{Koopmans}_i = \braopket{\varphi_i}{H}{\varphi_i} = \partial E_\mathsf{Koopmans}/\partial f_i
-            \end{equation*}
-            should be...
-            \begin{itemize}
-               \item independent of its own occupation $f_i$
-               \item equal to the corresponding total energy difference $E_i(N-1) - E(N)$
-            \end{itemize}
+         \vspace{1ex}
+         For the exact Green's function, we have poles that correspond to total energy differences
+         \begin{equation*}
+            \varepsilon_i =
+            \begin{cases}
+            E(N) - E_i(N-1) & i \in \text{occ} \\
+            E_i(N+1) - E(N) & i \in \text{emp}
+            \end{cases}
+         \end{equation*}
+         }
+
+         \onslide<3->{
+         \vspace{1ex}
+         For DFT, this condition is \emph{not} satisfied
          }
          %
       \end{minipage}
 
       \begin{minipage}{0.45\textwidth}
          \centering
-         \only<1>{
+         \only<1-2>{
             \includegraphics[height=0.7\textheight]{figures/photoemission_costantini.png}
          }
-         \only<2>{
-            \includegraphics[width=\columnwidth]{figures/curvature_plot/fig_en_curve_gradients_zoom.pdf}
-         }
          \only<3>{
-            \includegraphics[height=0.6\textheight]{figures/fig_gw100_dscf_cf_ks.png}
+            \includegraphics[width=\columnwidth]{figures/curvature_plot/fig_en_curve_gradients_zoom.pdf}
          }
       \end{minipage}
    }
-   \only<1>{
+   \only<1-2>{
       \blfootcite{Costantini2020}
+   }
+\end{frame}
+
+\begin{frame}{Koopmans functionals: theory}
+   \hbox{
+      \begin{minipage}{0.5\textwidth}
+            Core idea: for every orbital $i$ their energy
+            \begin{equation*}
+               \varepsilon^\mathsf{Koopmans}_i = \braopket{\varphi_i}{H}{\varphi_i} = \partial E_\mathsf{Koopmans}/\partial f_i
+            \end{equation*}
+            ought to be...
+            \begin{itemize}
+               \item independent of its own occupation $f_i$
+               \item equal to the corresponding total energy difference $E_i(N-1) - E(N)$
+            \end{itemize}
+         %
+      \end{minipage}
+
+      \begin{minipage}{0.45\textwidth}
+         \centering
+         \only<1>{
+            \includegraphics[width=\columnwidth]{figures/curvature_plot/fig_en_curve_gradients_zoom.pdf}
+         }
+         \only<2>{
+            \includegraphics[height=0.6\textheight]{figures/fig_gw100_dscf_cf_ks.png}
+         }
+      \end{minipage}
    }
 \end{frame}
 
@@ -859,7 +885,7 @@
    \begin{columns}
       \begin{column}{0.55\textwidth}
          \begin{itemize}
-            \item beta version released earlier this year\footnotemark[1]
+            \item v1.0 released earlier this year\footnotemark[1]
             \item implementations of Koopmans functionals
             \item automated workflows
                   \begin{itemize}
@@ -915,40 +941,40 @@
    \inputminted[fontsize=\scriptsize,breaklines]{python}{scripts/si.py}
 \end{frame}
 
-\begin{frame}{Neutral excitations with Koopmans}
-   \centering
-   \includegraphics[width=0.5\textwidth]{figures/elliott_workflow.jpeg}
-   \blfootcite{Elliott2019}
-\end{frame}
-
-\begin{frame}{Neutral excitations with Koopmans}
-   \begin{columns}
-      \begin{column}{0.4\textwidth}
-         \includegraphics[width=\textwidth]{figures/elliott_scatter2.jpeg}
-      \end{column}
-      \begin{column}{0.6\textwidth}
-         \footnotesize
-         \begin{tabular}{c >{\color{seaborn_red}\bfseries}S[table-format = 2.2] S[table-format = 2.2] S[table-format = 2.2] S[table-format = 2.2] S[table-format = 2.2]}
-            \multirow{2}{*}{Thiel's set} & {KI-BSE} & \multicolumn{2}{c}{G$_0$W$_0$-BSE} & \multicolumn{2}{c}{TDDFT}                   \\
-                                         & {PBE}    & {PBE}                              & {B3LYP}                   & {PBE} & {B3LYP} \\
-            \hline
-            MAE (eV)                     & 0.54     & 0.83                               & 0.46                      & 0.55  & 0.27
-         \end{tabular}
-
-         \vspace{2ex}
-         \onslide<2->{
-            Based on RPA $\rightarrow$ room for improvement with finite-field approaches
-         }
-
-      \end{column}
-   \end{columns}
-   \centering
-
-   \vspace{1ex}
-   \blfootcite{Elliott2019}
-   \blfootcite{Nguyen2019}
-
-\end{frame}
+% \begin{frame}{Neutral excitations with Koopmans}
+%    \centering
+%    \includegraphics[width=0.5\textwidth]{figures/elliott_workflow.jpeg}
+%    \blfootcite{Elliott2019}
+% \end{frame}
+% 
+% \begin{frame}{Neutral excitations with Koopmans}
+%    \begin{columns}
+%       \begin{column}{0.4\textwidth}
+%          \includegraphics[width=\textwidth]{figures/elliott_scatter2.jpeg}
+%       \end{column}
+%       \begin{column}{0.6\textwidth}
+%          \footnotesize
+%          \begin{tabular}{c >{\color{seaborn_red}\bfseries}S[table-format = 2.2] S[table-format = 2.2] S[table-format = 2.2] S[table-format = 2.2] S[table-format = 2.2]}
+%             \multirow{2}{*}{Thiel's set} & {KI-BSE} & \multicolumn{2}{c}{G$_0$W$_0$-BSE} & \multicolumn{2}{c}{TDDFT}                   \\
+%                                          & {PBE}    & {PBE}                              & {B3LYP}                   & {PBE} & {B3LYP} \\
+%             \hline
+%             MAE (eV)                     & 0.54     & 0.83                               & 0.46                      & 0.55  & 0.27
+%          \end{tabular}
+% 
+%          \vspace{2ex}
+%          \onslide<2->{
+%             Based on RPA $\rightarrow$ room for improvement with finite-field approaches
+%          }
+% 
+%       \end{column}
+%    \end{columns}
+%    \centering
+% 
+%    \vspace{1ex}
+%    \blfootcite{Elliott2019}
+%    \blfootcite{Nguyen2019}
+% 
+% \end{frame}
 
 \begin{frame}{Take home messages}
 
@@ -962,9 +988,13 @@
       \item Koopmans functionals are a class of functionals that treat spectral properties on the same footing as total energy differences (via GPWL)
       \item they can give orbital energies and band structures with comparable accuracy to state-of-the-art GW
       \item the release of \texttt{koopmans} means you don't need expert knowledge to run Koopmans functional calculations
-      \item Koopmans can replace GW when calculating neutral excitations with BSE
    \end{itemize}
 
+\end{frame}
+
+\begin{frame}{Take home messages}
+   Insert here the header of the JCTC
+   
 \end{frame}
 
 \begin{frame}{Acknowledgements}
@@ -996,7 +1026,7 @@
       Want to find out more? Go to \url{koopmans-functionals.org}
       \vspace{1em}
 
-      Free online school Nov 9-11 2022 \emph{Advanced Quantum ESPRESSO tutorial: Hubbard and Koopmans functionals from linear response}. Too late to register but it will be recorded!
+      Next week in Pavia, Italy \emph{Advanced Quantum ESPRESSO school: Hubbard and Koopmans functionals from linear response}. Recordings can be found on the Materials Cloud youtube page
       \vspace{1em}
 
       Follow \includegraphics[height=\fontcharht\font`\B]{figures/Twitter_Bird.png} \textcolor{twitter_blue}{@ed\_linscott} for updates | Slides available at \includegraphics[height=\fontcharht\font`\B]{logos/github-favicon.png} github/elinscott
