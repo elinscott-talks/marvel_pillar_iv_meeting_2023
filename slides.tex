@@ -1,6 +1,8 @@
 \documentclass[xcolor=table,aspectratio=169]{beamer}
 \usetheme{Madrid}
 \usepackage{adjustbox}
+\usepackage{dcolumn}
+\newcolumntype{d}[1]{D{.}{.}{#1}}
 %\usetheme{metropolis}
 \usepackage[style=verbose-note, sorting=none, sortcites=true, maxnames=1, giveninits=true, autocite=superscript, doi=false, url=false, isbn=false, backend=biber, citetracker=false, pagetracker=false, bibencoding=utf8, eprint=false]{biblatex}
 % \usepackage[backend=bibtex,style=authoryear-comp,citestyle=authoryear-comp,firstinits=true,sorting=none,maxnames=1,doi=false,isbn=false,url=false,eprint=false]{biblatex}
@@ -71,6 +73,7 @@
 \AtEveryBibitem{\clearfield{title}}
 \AtEveryBibitem{\clearfield{month}}
 \AtEveryBibitem{\clearfield{pages}}
+\AtEveryBibitem{\clearfield{note}}
 \DeclareNameAlias{default}{given-family}
 
 % \renewcommand*{\bibfont}{\tiny}
@@ -132,8 +135,8 @@
 \usesmartdiagramlibrary{additions}
 \usepackage{multicol}
 \usepackage{helvet}
-\usepackage{sansmath}
-\sansmath
+% \usepackage{sansmath}
+% \sansmath
 \usepackage[normalem]{ulem} % for sout (strike out)
 \usepackage{tcolorbox}
 \tcbuselibrary{skins,hooks}
@@ -451,7 +454,7 @@
          }
       \end{minipage}
    }
-   \only<1-2>{
+   \onslide<1-2>{
       \blfootcite{Costantini2020}
    }
 \end{frame}
@@ -501,7 +504,7 @@
       }
       +
       \underbrace{
-         \only<4>{\textcolor{red}}{f_i \int_0^1 \varepsilon_i(f) df}
+         \only<4>{\textcolor{red}}{f_i \eta_i}
       }_{
          \substack{\text{restores} \\ \text{linearity}}
       }
@@ -533,6 +536,7 @@
          Differences to semi-local functionals:
          \begin{itemize}
             \item<6-> screening
+            \item flavours... TODO
             \item<8-> orbital-density dependence
          \end{itemize}
       }
@@ -745,43 +749,78 @@
    \blfootcite{Colonna2022}
 \end{frame}
 
-\begin{frame}{Koopmans functionals: the workflows}
-   \small Screening coefficients $\{\alpha_i\}$ must be determined first, via\dots
+\begin{frame}{Koopmans functionals: results for solids}
+   
+\begin{table}[t]
+   \centering
+   \footnotesize
+   \begin{tabular}{r@{ $\rightarrow$ } l *{3}{d{2.2}} >{\color{seaborn_red}}S[table-format = 2.2] >{\color{seaborn_red}}S[table-format = 2.2] d{2.2} @{$\pm$} d{1.2}}
+      \hline
+      \hline
+      \multicolumn{2}{c}{ }
+                                & \multicolumn{1}{c}{PBE}
+                                & \multicolumn{1}{c}{G\textsubscript{0}W\textsubscript{0}\footnote{\cite{Shishkin2007} for $E_g$ and \cite{Hybertsen1986} for the transitions;}}
+                                & \multicolumn{1}{c}{scG$\tilde{\mathrm{W}}$\footcite{Shishkin2007a}}
+                                & \multicolumn{1}{c}{
+                                 \textcolor{seaborn_red}{\bfseries KI@[PBE,MLWFs]}}
+                                & \multicolumn{1}{c}{
+                                 \textcolor{seaborn_red}{\bfseries KIPZ@PBE}}
+                                & \multicolumn{2}{c}{exp\footcite{Madelung2004}}                                                                                                                                                                   \\
+      \hline
+      \multicolumn{2}{c}{$E_g$} &
+      0.49 &  1.06 & 1.14 &  1.16 &   1.15 & \multicolumn{2}{c}{1.17}\\
+      $\Gamma_{1v}$ & $\Gamma_{25'v}$ & 11.97 & 12.04 &      & 11.97 & 12.09 & 12.5 &  0.6\\
+      $X_{1v}$ & $\Gamma_{25'v}$ &  7.82 &       &      &  7.82       &       & \multicolumn{2}{c}{7.75}\\
+      $X_{4v}$ & $\Gamma_{25'v}$ &  2.85 &  2.99 &      &  2.85 & 2.86 & \multicolumn{2}{c}{2.90}\\
+      $L_{2'v}$ & $\Gamma_{25'v}$ &  9.63 &  9.79 &      &  9.63 &  9.74 &  9.3 &  0.4\\
+      $L_{1v}$ & $\Gamma_{25'v}$ &  6.98 &  7.18 &      &  6.98 &   7.04 &  6.8 &  0.2\\
+      $L_{3'v}$ & $\Gamma_{25'v}$ &  1.19 &  1.27 &      &  1.19 &       &  1.2 &  0.2\\
+      $\Gamma_{25'v}$ &  $\Gamma_{15c}$ &  2.48 &  3.29 &      &  3.17  &  3.20 & 3.35 & 0.01\\
+      $\Gamma_{25'v}$ &  $\Gamma_{2'c}$ &  3.28 &  4.02 &      &  3.95  &  3.95 & 4.15 & 0.05\\
+      $\Gamma_{25'v}$ &        $X_{1c}$ &  0.62 &  1.38 &      &  1.28  &  1.31 & \multicolumn{2}{c}{1.13} \\
+      $\Gamma_{25'v}$ &        $L_{1c}$ &  1.45 &  2.21 &      &  2.12  &  2.13 & 2.04 & 0.06\\
+      $\Gamma_{25'v}$ &        $L_{3c}$ &  3.24 &  4.18 &      &  3.91  &  3.94 &  3.9 &  0.1\\
+      \hline
+      \multicolumn{2}{c}{MSE} & 0.35 &  0.02 &      &  0.01 &   0.03\\
+      \multicolumn{2}{c}{MAE} & 0.44 &  0.21 &      &  0.14 &   0.17\\
+      \hline
+      \hline
+   \end{tabular}
 
-   \vspace{1ex}
-
-   \onslide<2->{
-      (a) finite difference calculations using a supercell
-
-      \vspace{-2ex}
-      \adjustbox{width=\textwidth}{\input{supercell_workflow.tex}\input{supercell_workflow_ml.tex}\end{tikzpicture}}
-   }
-
-   \vspace{-1.5ex}
-   \onslide<3->{
-      (b) DFPT using a primitive cell
-
-      \vspace{-2ex}
-      \adjustbox{width=0.655\textwidth}{\input{primitive_workflow.tex}}
-   }
-
-   \onslide<4->{(c) via machine learning} \blfootcite{DeGennaro2022,Colonna2022,Schubert2022}
-   % \onslide<6>{
-   %    \vspace{-0.375\paperheight}
-   %    \begin{flushright}
-   %       \begin{tcolorbox}[enhanced jigsaw, width=4cm, opacityback=0, colframe=seaborn_red, coltext=seaborn_red, left=3pt, bottom=3pt, top=3pt, right=3pt, tikz={rotate=30,transform shape}, boxrule=1.5mm]
-   %          \begin{center}
-   %             \includegraphics[height=1cm]{./figures/qe_logo_high_res_cropped.jpg}
-   %             \bf \huge\ \raisebox{0.3cm}{+}\,
-   %             \includegraphics[height=1cm]{./figures/python_logo.png}
-
-   %             \bf \large OUT NOW!
-   %          \end{center}
-   %       \end{tcolorbox}
-   %    \end{flushright}
-   % }
-
+   % \textsuperscript{\emph{a}} this work;
+   % \textsuperscript{\emph{b}} Ref.~\citenum{Shishkin2007} for $E_g$ and Ref.~\citenum{Hybertsen1986} for the transitions;
+   % \textsuperscript{\emph{c}} Ref.~\citenum{Shishkin2007a};
+   % \textsuperscript{\emph{d}} Ref.~\citenum{DeGennaro2022};
+   % \textsuperscript{\emph{e}} Ref.~\citenum{Madelung2004}
+\end{table}
 \end{frame}
+
+\begin{frame}{Koopmans functionals: results for toy systems}
+   For Hooke's atom (two electrons in a harmonic confining potential)
+
+   \begin{figure}[t]
+      \begin{subfigure}{0.4\textwidth}
+         \includegraphics[width=\columnwidth]{figures/schubert_vxc.jpeg}
+      \end{subfigure}
+      \begin{subfigure}{0.4\textwidth}
+         \onslide<2->{
+         \includegraphics[width=\columnwidth]{figures/schubert_vxc_integrated.jpeg}
+         }
+      \end{subfigure}
+   \end{figure}
+
+   \blfootcite{Schubert2023}
+\end{frame}
+
+\begin{frame}{Koopmans functionals: caveats}
+
+   \begin{itemize}[<+->]
+      \item restricted to systems with a non-zero band gap
+      \item empty state localization in the bulk limit
+      \item can potentially break the crystal point group symmetry
+   \end{itemize}
+\end{frame}
+
 
 \begin{frame}{Recent advances}
    The general workflow:
@@ -794,14 +833,75 @@
    Recent advances make some of these steps a lot easier...
 \end{frame}
 
-\begin{frame}{Automated Wannierization}
+\begin{frame}{Recent advances: easier Wannierization}
 
-   \cite{Qiao2023}
-   \cite{Qiao2023a}
+   \begin{figure}[t]
+      \begin{subfigure}{0.225\textwidth}
+         \includegraphics[height=1.5\columnwidth]{figures/proj_disentanglement_fig1b.png}
+         \vspace{-0.01\paperheight}
+      \end{subfigure}
+      \begin{subfigure}{0.225\textwidth}
+         \onslide<2->{
+         \includegraphics[height=1.5\columnwidth]{figures/proj_disentanglement_fig1a.png}
+         }
+      \end{subfigure}
+      \hspace{0.025\textwidth}
+      % \begin{subfigure}{0.225\textwidth}
+      %    \onslide<3->{
+      %    \includegraphics[height=1.5\columnwidth]{figures/proj_disentanglement_fig1d.png}
+      %    }
+      % \end{subfigure}
+      \begin{subfigure}{0.225\textwidth}
+         \onslide<4->{
+         \includegraphics[height=1.5\columnwidth]{figures/proj_disentanglement_fig1f.png}
+         }
+      \end{subfigure}
+   \end{figure}
+
+   \onslide<5->{Demonstrated on $>$20,000 materials $\rightarrow$ black-box Wannierization!}
+
+   \blfootcite{Qiao2023}
 
 \end{frame}
 
-\begin{frame}{Learning the screening parameters}
+\begin{frame}{Recent advances: easier Wannierization}
+   Separation of target manifolds via parallel transport to obtain separate occupied and empty manifolds
+
+      \begin{figure}
+         \onslide<2->{
+         \includegraphics[width=0.5\columnwidth]{figures/target_manifolds_fig1b.png}
+         }
+      \end{figure}
+
+   \blfootcite{Qiao2023a}
+\end{frame}
+
+\begin{frame}{Recent advances: screening parameters via DFPT}
+   Original formulation requires explicit charged defect calculations in a supercell
+
+   \begin{equation*}
+   \alpha^{n+1}_i =
+   \alpha^n_i \frac{\Delta E^\text{Koopmans}_i - \lambda_{ii}(0, 1)}{\lambda_{ii}(\alpha^n_i, 1) - \lambda_{ii}(0, 1)}; \qquad  \Delta E^\text{Koopmans}_i = E^\text{Koopmans}(N) - E^\text{Koopmans}_i(N - 1)
+   \end{equation*}
+
+   \onslide<2->{
+   Now reformulated in terms of DFPT\footcite{Colonna2019}...
+
+   \begin{equation*}
+   \alpha_{i} = 1 + \frac{\langle v^{i}_{\rm pert} \vert \Delta^{i} n \rangle}{\langle n_{i} \vert v^{i}_{\rm pert} \rangle}.
+   \end{equation*}
+   }
+   
+   \onslide<3->{
+   ... in reciprocal space\footcite{Colonna2022}
+   \begin{equation*}
+      \alpha_{\mathbf{0}i} =  1 + \frac{\sum_{\mathbf{q}} \langle v^{\mathbf{0}i}_{\rm pert,\mathbf{q}} \vert \Delta^{\mathbf{0}i}_{\mathbf{q}}n \rangle} {\sum_{\mathbf{q}} \langle n^{\mathbf{0}i}_{\mathbf{q}} \vert v^{\mathbf{0}i}_{\rm pert,\mathbf{q}} \rangle}.
+   \end{equation*}
+   }
+
+\end{frame}
+
+\begin{frame}{Recent advances: screening parameters via ML}
    \begin{center}
       \begin{tikzpicture}
          \node[inner sep=0pt] (water box) at (0,0)
@@ -830,7 +930,7 @@
    \blfootcite{Schubert2022}
 
    \begin{align*}
-      c^i_{nlm,k=\mathrm{orbital}} & =\int d\textbf{r} g_{nl}(r)Y_{lm}(\theta,\varphi)\rho^i(\textbf{r}-\textbf{R}^i)                        \\
+      c^i_{nlm,k} & =\int d\textbf{r} g_{nl}(r)Y_{lm}(\theta,\varphi)\rho^i(\textbf{r}-\textbf{R}^i)                        \\
       p^i_{n_1n_2l,k_1k_2}         & =\pi \sqrt{\frac{8}{2l+1}}\sum\limits_m {c_{n_1lm,k_1}^{i *}}c_{n_2lm,k_2}^i \label{eq: power spectrum}
    \end{align*}
 
@@ -840,7 +940,7 @@
 
 \end{frame}
 
-\begin{frame}{Learning the screening parameters}
+\begin{frame}{Recent advances: screening parameters via ML}
    \begin{center}
 
       \includegraphics[height=0.7\paperheight]{figures/CsSnI3_calc_vs_pred_Edward.png}
@@ -857,11 +957,50 @@
 
 \end{frame}
 
+\begin{frame}{Koopmans functionals: the workflows}
+   \small We have complicated workflows, with either...
+
+   \vspace{1ex}
+
+   \onslide<2->{
+      (a) finite difference calculations using a supercell
+
+      \vspace{-2ex}
+      \adjustbox{width=\textwidth}{\input{supercell_workflow.tex}\end{tikzpicture}}
+   }
+
+   \vspace{-1.5ex}
+   \onslide<3->{
+      (b) DFPT using a primitive cell
+
+      \vspace{-2ex}
+      \adjustbox{width=0.655\textwidth}{\input{primitive_workflow.tex}}
+   }
+
+   \blfootcite{DeGennaro2022,Colonna2022,Schubert2022}
+   % \onslide<6>{
+   %    \vspace{-0.375\paperheight}
+   %    \begin{flushright}
+   %       \begin{tcolorbox}[enhanced jigsaw, width=4cm, opacityback=0, colframe=seaborn_red, coltext=seaborn_red, left=3pt, bottom=3pt, top=3pt, right=3pt, tikz={rotate=30,transform shape}, boxrule=1.5mm]
+   %          \begin{center}
+   %             \includegraphics[height=1cm]{./figures/qe_logo_high_res_cropped.jpg}
+   %             \bf \huge\ \raisebox{0.3cm}{+}\,
+   %             \includegraphics[height=1cm]{./figures/python_logo.png}
+
+   %             \bf \large OUT NOW!
+   %          \end{center}
+   %       \end{tcolorbox}
+   %    \end{flushright}
+   % }
+
+\end{frame}
+
+
 \begin{frame}{How can we make these calculations easier?}
 
-   \texttt{kcw.x} (DFPT implementation) is distributed in Quantum ESPRESSO v7.1 onwards
+   % \texttt{kcw.x} (DFPT implementation) is distributed in Quantum ESPRESSO v7.1 onwards
 
-   \vspace{4ex}
+   % \vspace{4ex}
 
    But complex workflows mean that...
    \begin{itemize}
@@ -993,7 +1132,7 @@
 \end{frame}
 
 \begin{frame}{Take home messages}
-   Insert here the header of the JCTC
+   \includegraphics[width=\textwidth]{figures/jctc.png}
    
 \end{frame}
 
