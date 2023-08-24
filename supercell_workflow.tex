@@ -61,13 +61,9 @@ coordinate (dummy2) at (\x2, \y1);
 
 % calculations
 \node at (3, 3) [cp] (N-1_filled) {PBE/$\alpha_0$KIPZ ($N-1$)};
-\node at (3, 2) [cp] (PBE_filled) {PBE};
-\node at (3, -2) [cp] (PBE_empty) {PBE};
 \node at (3, -3) [cp] (N+1_empty) {PBE/$\alpha_0$KIPZ ($N+1$)};
 
-\path [line] (KC init) to[-|-] (PBE_filled);
 \path [line] (KC init) to[-|-] (N-1_filled);
-\path [line] (KC init) to[-|-] (PBE_empty);
 \path [line] (KC init) to[-|-] (N+1_empty);
 
 % results
@@ -82,11 +78,11 @@ coordinate (dummy2) at (\x2, \y1);
 \path [line] (KC init) -- (EN);
 \path [line] (KC init.east) to[-|-] (lambda_filled.west);
 \path [line] (KC init.east) to[-|-] (lambda_empty.west);
+\path [line] (KC init.east) to[-|-] (lambda0_filled.west);
+\path [line] (KC init.east) to[-|-] (lambda0_empty.west);
 
-\path [line] (PBE_filled) -- (lambda0_filled);
 \path [line] (N-1_filled) -- (EN-1_filled);
 
-\path [line] (PBE_empty) -- (lambda0_empty);
 \path [line] (N+1_empty) -- (EN+1_empty);
 
 % alpha parameters

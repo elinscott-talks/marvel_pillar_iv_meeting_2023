@@ -365,21 +365,24 @@
 
 \frame{\titlepage}
 
-\begin{frame}{Take home messages}
-
-   Koopmans functionals are a class of functionals that aim to reproduce spectral properties and total energies on the same footing
-
-   \vspace{1em}
-   As a result they give band structures and orbital energies comparable to state-of-the-art GW
-
-   \vspace{1em}
-   We have released \texttt{koopmans}, a package that contains everything necessary to run calculations using Koopmans functionals without expert knowledge
-
-   % Koopmans functionals are a class of functionals that aim to reproduce spectral properties (charged excitations) and total energies on the same footing by enforcing a generalized piecewise linearity condition.
-
-   % Koopmans functionals give band structures and orbital energies as accurate as state-of-the-art GW, at a fraction of the computational cost
-
-\end{frame}
+% \begin{frame}{Take home messages}
+% 
+%    Koopmans functionals are a class of functionals that aim to reproduce spectral properties and total energies on the same footing
+% 
+%    \vspace{1em}
+%    (They share many parallels --- and have subtle differences --- with other methods presented this week)
+% 
+%    \vspace{1em}
+%    As a result they give band structures and orbital energies comparable to state-of-the-art GW
+% 
+%    \vspace{1em}
+%    We have released \texttt{koopmans}, a package that contains everything necessary to run calculations using Koopmans functionals without expert knowledge
+% 
+%    % Koopmans functionals are a class of functionals that aim to reproduce spectral properties (charged excitations) and total energies on the same footing by enforcing a generalized piecewise linearity condition.
+% 
+%    % Koopmans functionals give band structures and orbital energies as accurate as state-of-the-art GW, at a fraction of the computational cost
+% 
+% \end{frame}
 
 % \begin{frame}{Failures of DFT}
 %    \begin{itemize}
@@ -439,7 +442,7 @@
 
          \onslide<3->{
          \vspace{1ex}
-         For DFT, this condition is \emph{not} satisfied
+         For DFT, this condition is \emph{not} satisfied in general
          }
          %
       \end{minipage}
@@ -490,7 +493,7 @@
 
    \vspace{-1.5ex}
    \begin{align*}
-      E_\mathsf{Koopmans}[\rho,\only<8->{\textcolor{red}}{\{f_i\}}, \only<6-7>{\textcolor{red}}{\{\alpha_i\}}]
+      E_\mathsf{Koopmans}[\rho,\only<9->{\textcolor{red}}{\{f_i\}}, \only<6-7>{\textcolor{red}}{\{\alpha_i\}}]
       = \only<2>{\textcolor{red}}{E_{DFT}[\rho]}
       + \sum_i
       \only<6-7>{\textcolor{red}}
@@ -504,7 +507,7 @@
       }
       +
       \underbrace{
-         \only<4>{\textcolor{red}}{f_i \eta_i}
+         \only<4>{\textcolor{red}}{f_i \only<8>{\textcolor{red}}{\eta_i}}
       }_{
          \substack{\text{restores} \\ \text{linearity}}
       }
@@ -533,14 +536,14 @@
 
       \only<5->{
          \raggedright
-         Differences to semi-local functionals:
+         Features:
          \begin{itemize}
             \item<6-> screening
-            \item flavours... TODO
-            \item<8-> orbital-density dependence
+            \item<8-> different variants: KI (leaves total energy unchanged), KIPZ (exact for 1-electron systems), pKIPZ
+            \item<9-> orbital-density dependence
          \end{itemize}
       }
-      \only<8->{
+      \only<9->{
          \begin{equation*}
             v^\mathrm{KI}_{\textcolor{red}{i}}/\alpha_i = - E_{\mathrm{H}}\left[\textcolor{red}{n_{i}}\right]
             + E_{\mathrm{xc}}\left[\rho\right]
@@ -581,6 +584,7 @@
                   \caption{canonical}
                \end{subfigure}
             \end{figure}
+      \item localised variational orbitals naturally allow us to treat bulk systems
       \item ODD functional means that we know $\hat H \ket{\varphi_i}$ for variational orbitals $\{\ket{\varphi_i}\}$ but we don't know $\hat H$ in general
       \item Practically we can often use MLWFs
       \item a natural generalisation in the direction of spectral functional theory\footcite{Ferretti2014}
@@ -678,78 +682,6 @@
 \end{frame}
 
 \begin{frame}{Koopmans functionals: results for solids}
-   \vspace{-0.5em}
-   \begin{figure}[t]
-      \centering
-      \begin{subfigure}{0.45\textwidth}
-         \includegraphics[width=\columnwidth]{figures/Si_kipz_bands.png}
-         \caption{Si, KIPZ}
-      \end{subfigure}
-      \begin{subfigure}{0.45\textwidth}
-         \includegraphics[width=\columnwidth]{figures/GaAs_ki_bands.png}
-         \caption{GaAs, KI}
-      \end{subfigure}
-      % \begin{subfigure}{\textwidth}
-      %    \begin{tabularx}{\columnwidth}{C C C C C C C}
-      %       ZnO                                  & LDA  & HSE  & GW$_0$ & scG$\tilde{\rm W}$ & KI   & exp.      \\
-      %       \hline
-      %       $E_\mathrm{gap}$ (eV)                & 0.79 & 2.79 & 3.0    & 3.2                & 3.62 & 3.60      \\
-      %       $\langle \varepsilon_d \rangle$ (eV) & -5.1 & -6.1 & -6.4   & -6.7               & -6.9 & -7.5/-8.0 \\
-      %    \end{tabularx}
-      % \end{subfigure}
-   \end{figure}
-   \begin{center}
-      \footnotesize
-      \begin{tabular}{l l S[table-format = 2.2] S[table-format = 2.2] >{\color{seaborn_red}\bfseries}S[table-format = 2.2] >{\color{seaborn_red}\bfseries}S[table-format = 2.2] >{\color{seaborn_red}\bfseries}S[table-format = 2.2] S[table-format = 2.2]}
-                               &                                  & {PBE} & {QSG$\tilde{\mathsf{W}}$} & {KI} & {pKIPZ} & {\bf KIPZ} & {exp} \\
-         \midrule
-         \midrule
-         {Si}                  & $E_\mathrm{gap}$                 & 0.55  & 1.24                      & 1.18 & 1.17    & 1.19       & 1.17  \\
-         \midrule
-         \multirow{2}{*}{GaAs} & $E_\mathrm{gap}$                 & 0.50  & 1.61                      & 1.53 & 1.49    & 1.50       & 1.52  \\
-                               & $\langle \varepsilon_d \rangle $ & 14.9  & 17.6                      & 16.9 &         & 17.7       & 18.9
-      \end{tabular}
-   \end{center}
-   \blfootcite{DeGennaro2022}
-\end{frame}
-
-\begin{frame}{Koopmans functionals: results for solids}
-   \begin{figure}[t]
-      \centering
-      \begin{subfigure}{0.3\textwidth}
-         \includegraphics[width=\columnwidth]{figures/ZnO_lda.png}
-      \end{subfigure}
-      \begin{subfigure}{0.3\textwidth}
-         \includegraphics[width=\columnwidth]{figures/ZnO_hse.png}
-      \end{subfigure}
-      \begin{subfigure}{0.3\textwidth}
-         \includegraphics[width=\columnwidth]{figures/ZnO_ki.png}
-      \end{subfigure}
-      \begin{subfigure}{\textwidth} %<-- changed width
-         \centering
-         %    \renewcommand\tabularxcolumn[1]{m{#1}}% <-- added
-         %    \renewcommand\arraystretch{1.3}
-         %    \setlength\tabcolsep{2pt}% <-- added
-         \begin{tabular}{c S[table-format = 2.2] S[table-format = 2.2] S[table-format = 2.2] S[table-format = 2.2] >{\color{seaborn_red}\bfseries}S[table-format = 2.2] S[table-format = 2.2]}
-            ZnO                                  & {LDA} & {HSE} & {GW$_0$} & {scG$\tilde{\rm W}$} & {KI} & {exp}       \\
-            \hline
-            $E_\mathrm{gap}$ (eV)                & 0.79  & 2.79  & 3.0      & 3.2                  & 3.62 & 3.60        \\
-            $\langle \varepsilon_d \rangle$ (eV) & -5.1  & -6.1  & -6.4     & -6.7                 & -6.9 & {-7.5/-8.0} \\
-         \end{tabular}
-         %        \caption{table}
-      \end{subfigure}
-      % \caption{Band structure of ZnO calculated at different level of theory:
-      %    LDA (left panel), HSE (middle panel) and KI (right panel). Shaded areas
-      %    highlight valence (light blue) and conduction (light red) manifolds. The
-      %    experimental values for the band gap and for the energy position of
-      %    Zn $d$-states are represented by the dashed green line and by the dashed
-      %    red line, respectively.
-      %    Table: Band gap and position of Zn $d$ states with respect to the top of the valence band at different level of theory compared to experimental and GW results from Ref.~\onlinecite{shishkin_accurate_2007}.}
-   \end{figure}
-   \blfootcite{Colonna2022}
-\end{frame}
-
-\begin{frame}{Koopmans functionals: results for solids}
    
 \begin{table}[t]
    \centering
@@ -795,8 +727,45 @@
 \end{table}
 \end{frame}
 
+\begin{frame}{Koopmans functionals: results for solids}
+   \begin{figure}[t]
+      \centering
+      \begin{subfigure}{0.3\textwidth}
+         \includegraphics[width=\columnwidth]{figures/ZnO_lda.png}
+      \end{subfigure}
+      \begin{subfigure}{0.3\textwidth}
+         \includegraphics[width=\columnwidth]{figures/ZnO_hse.png}
+      \end{subfigure}
+      \begin{subfigure}{0.3\textwidth}
+         \includegraphics[width=\columnwidth]{figures/ZnO_ki.png}
+      \end{subfigure}
+      \begin{subfigure}{\textwidth} %<-- changed width
+         \centering
+         %    \renewcommand\tabularxcolumn[1]{m{#1}}% <-- added
+         %    \renewcommand\arraystretch{1.3}
+         %    \setlength\tabcolsep{2pt}% <-- added
+         \begin{tabular}{c S[table-format = 2.2] S[table-format = 2.2] S[table-format = 2.2] S[table-format = 2.2] >{\color{seaborn_red}\bfseries}S[table-format = 2.2] S[table-format = 2.2]}
+            ZnO                                  & {LDA} & {HSE} & {GW$_0$} & {scG$\tilde{\rm W}$} & {KI} & {exp}       \\
+            \hline
+            $E_\mathrm{gap}$ (eV)                & 0.79  & 2.79  & 3.0      & 3.2                  & 3.62 & 3.60        \\
+            $\langle \varepsilon_d \rangle$ (eV) & -5.1  & -6.1  & -6.4     & -6.7                 & -6.9 & {-7.5/-8.0} \\
+         \end{tabular}
+         %        \caption{table}
+      \end{subfigure}
+      % \caption{Band structure of ZnO calculated at different level of theory:
+      %    LDA (left panel), HSE (middle panel) and KI (right panel). Shaded areas
+      %    highlight valence (light blue) and conduction (light red) manifolds. The
+      %    experimental values for the band gap and for the energy position of
+      %    Zn $d$-states are represented by the dashed green line and by the dashed
+      %    red line, respectively.
+      %    Table: Band gap and position of Zn $d$ states with respect to the top of the valence band at different level of theory compared to experimental and GW results from Ref.~\onlinecite{shishkin_accurate_2007}.}
+   \end{figure}
+   \blfootcite{Colonna2022}
+\end{frame}
+
+
 \begin{frame}{Koopmans functionals: results for toy systems}
-   For Hooke's atom (two electrons in a harmonic confining potential)
+   For Hooke's atom (two electrons in a harmonic confining potential with Coulombic repulsion)
 
    \begin{figure}[t]
       \begin{subfigure}{0.4\textwidth}
@@ -822,7 +791,7 @@
 \end{frame}
 
 
-\begin{frame}{Recent advances}
+\begin{frame}{Accelerating improvements}
    The general workflow:
    \begin{itemize}
       \item define/initialize a set of variational orbitals
@@ -833,7 +802,7 @@
    Recent advances make some of these steps a lot easier...
 \end{frame}
 
-\begin{frame}{Recent advances: easier Wannierization}
+\begin{frame}{Accelerating improvements: easier Wannierization}
 
    \begin{figure}[t]
       \begin{subfigure}{0.225\textwidth}
@@ -864,7 +833,7 @@
 
 \end{frame}
 
-\begin{frame}{Recent advances: easier Wannierization}
+\begin{frame}{Accelerating improvements: easier Wannierization}
    Separation of target manifolds via parallel transport to obtain separate occupied and empty manifolds
 
       \begin{figure}
@@ -876,7 +845,7 @@
    \blfootcite{Qiao2023a}
 \end{frame}
 
-\begin{frame}{Recent advances: screening parameters via DFPT}
+\begin{frame}{Accelerating improvements: screening via DFPT}
    Original formulation requires explicit charged defect calculations in a supercell
 
    \begin{equation*}
@@ -901,46 +870,7 @@
 
 \end{frame}
 
-\begin{frame}{Recent advances: screening parameters via ML}
-   \begin{center}
-      \begin{tikzpicture}
-         \node[inner sep=0pt] (water box) at (0,0)
-         {
-            \includegraphics[width=0.25\textwidth]{figures/orbital.emp.00191_cropped.png}
-         };
-         \node[below=0cm of water box] (density) {$\rho_i(\mathbf{r})$};
-         \node[right=0.2\textwidth of water box] (power spectrum) {
-            $
-               \begin{bmatrix}
-                  x_{0} \\
-                  x_{1} \\
-                  x_{2} \\
-                  \vdots
-               \end{bmatrix}
-            $
-         };
-         \path[line] (water box) -- node [midway, above, align=center] (decomposition) {power spectrum \\ decomposition} (power spectrum);
-         \node[right=0.2\textwidth of power spectrum] (screening parameter) {$\alpha_i$};
-         \path[line] (power spectrum) -- node [midway, above, align=center] (model) {ML model} (screening parameter);
-      \end{tikzpicture}
-   \end{center}
-
-   \vspace{-4em}
-
-   \blfootcite{Schubert2022}
-
-   \begin{align*}
-      c^i_{nlm,k} & =\int d\textbf{r} g_{nl}(r)Y_{lm}(\theta,\varphi)\rho^i(\textbf{r}-\textbf{R}^i)                        \\
-      p^i_{n_1n_2l,k_1k_2}         & =\pi \sqrt{\frac{8}{2l+1}}\sum\limits_m {c_{n_1lm,k_1}^{i *}}c_{n_2lm,k_2}^i \label{eq: power spectrum}
-   \end{align*}
-
-   % $g_{nl}$ = orthonormalised radial Gaussian basis functions
-
-   % $Y_{lm}$ = spherical harmonics
-
-\end{frame}
-
-\begin{frame}{Recent advances: screening parameters via ML}
+\begin{frame}{Accelerating improvements: screening via ML}
    \begin{center}
 
       \includegraphics[height=0.7\paperheight]{figures/CsSnI3_calc_vs_pred_Edward.png}
@@ -957,7 +887,7 @@
 
 \end{frame}
 
-\begin{frame}{Koopmans functionals: the workflows}
+\begin{frame}{Accelerating improvements: automated workflows}
    \small We have complicated workflows, with either...
 
    \vspace{1ex}
@@ -977,7 +907,7 @@
       \adjustbox{width=0.655\textwidth}{\input{primitive_workflow.tex}}
    }
 
-   \blfootcite{DeGennaro2022,Colonna2022,Schubert2022}
+   \blfootcite{Linscott2023}
    % \onslide<6>{
    %    \vspace{-0.375\paperheight}
    %    \begin{flushright}
@@ -996,7 +926,7 @@
 \end{frame}
 
 
-\begin{frame}{How can we make these calculations easier?}
+\begin{frame}{Accelerating improvements: automated workflows}
 
    % \texttt{kcw.x} (DFPT implementation) is distributed in Quantum ESPRESSO v7.1 onwards
 
@@ -1025,7 +955,7 @@
       \begin{column}{0.55\textwidth}
          \begin{itemize}
             \item v1.0 released earlier this year\footnotemark[1]
-            \item implementations of Koopmans functionals
+            \item implementations of Koopmans functionals within Quantum ESPRESSO
             \item automated workflows
                   \begin{itemize}
                      \item start-to-finish Koopmans calculations
@@ -1045,7 +975,7 @@
          \includegraphics[width=\columnwidth]{figures/website_cropped.png}
       \end{column}
    \end{columns}
-   \footnotetext[1]{Linscott et al., in prep}
+   \footnotetext[1]{\cite{Linscott2023}}
    \footnotetext[2]{\cite{Larsen2017}}
 \end{frame}
 
@@ -1223,6 +1153,92 @@
 %    % For further reading on Koopmans functionals, see \cite{Dabo2010,Borghi2014,Nguyen2018,Colonna2018,Colonna2019,DeGennaro2022,Colonna2022}
 % 
 % \end{frame}
+
+\begin{frame}{Koopmans functionals: results for solids}
+   \vspace{-0.5em}
+   \begin{figure}[t]
+      \centering
+      \begin{subfigure}{0.45\textwidth}
+         \includegraphics[width=\columnwidth]{figures/Si_kipz_bands.png}
+         \caption{Si, KIPZ}
+      \end{subfigure}
+      \begin{subfigure}{0.45\textwidth}
+         \includegraphics[width=\columnwidth]{figures/GaAs_ki_bands.png}
+         \caption{GaAs, KI}
+      \end{subfigure}
+      % \begin{subfigure}{\textwidth}
+      %    \begin{tabularx}{\columnwidth}{C C C C C C C}
+      %       ZnO                                  & LDA  & HSE  & GW$_0$ & scG$\tilde{\rm W}$ & KI   & exp.      \\
+      %       \hline
+      %       $E_\mathrm{gap}$ (eV)                & 0.79 & 2.79 & 3.0    & 3.2                & 3.62 & 3.60      \\
+      %       $\langle \varepsilon_d \rangle$ (eV) & -5.1 & -6.1 & -6.4   & -6.7               & -6.9 & -7.5/-8.0 \\
+      %    \end{tabularx}
+      % \end{subfigure}
+   \end{figure}
+   \begin{center}
+      \footnotesize
+      \begin{tabular}{l l S[table-format = 2.2] S[table-format = 2.2] >{\color{seaborn_red}\bfseries}S[table-format = 2.2] >{\color{seaborn_red}\bfseries}S[table-format = 2.2] >{\color{seaborn_red}\bfseries}S[table-format = 2.2] S[table-format = 2.2]}
+                               &                                  & {PBE} & {QSG$\tilde{\mathsf{W}}$} & {KI} & {pKIPZ} & {\bf KIPZ} & {exp} \\
+         \midrule
+         \midrule
+         {Si}                  & $E_\mathrm{gap}$                 & 0.55  & 1.24                      & 1.18 & 1.17    & 1.19       & 1.17  \\
+         \midrule
+         \multirow{2}{*}{GaAs} & $E_\mathrm{gap}$                 & 0.50  & 1.61                      & 1.53 & 1.49    & 1.50       & 1.52  \\
+                               & $\langle \varepsilon_d \rangle $ & 14.9  & 17.6                      & 16.9 &         & 17.7       & 18.9
+      \end{tabular}
+   \end{center}
+   \blfootcite{DeGennaro2022}
+\end{frame}
+
+\begin{frame}{Extrapolating properly to the bulk limit}
+
+   \begin{centering}
+      \includegraphics[width=0.8\textwidth]{figures/fig_nguyen_scaling.png}
+   \end{centering}
+
+   \blfootcite{Nguyen2018}
+   
+\end{frame}
+
+\begin{frame}{Accelerating improvements: screening via ML}
+   \begin{center}
+      \begin{tikzpicture}
+         \node[inner sep=0pt] (water box) at (0,0)
+         {
+            \includegraphics[width=0.25\textwidth]{figures/orbital.emp.00191_cropped.png}
+         };
+         \node[below=0cm of water box] (density) {$\rho_i(\mathbf{r})$};
+         \node[right=0.2\textwidth of water box] (power spectrum) {
+            $
+               \begin{bmatrix}
+                  x_{0} \\
+                  x_{1} \\
+                  x_{2} \\
+                  \vdots
+               \end{bmatrix}
+            $
+         };
+         \path[line] (water box) -- node [midway, above, align=center] (decomposition) {power spectrum \\ decomposition} (power spectrum);
+         \node[right=0.2\textwidth of power spectrum] (screening parameter) {$\alpha_i$};
+         \path[line] (power spectrum) -- node [midway, above, align=center] (model) {ML model} (screening parameter);
+      \end{tikzpicture}
+   \end{center}
+
+   \vspace{-4em}
+
+   \blfootcite{Schubert2022}
+
+   \begin{align*}
+      c^i_{nlm,k} & =\int d\textbf{r} g_{nl}(r)Y_{lm}(\theta,\varphi)\rho^i(\textbf{r}-\textbf{R}^i)                        \\
+      p^i_{n_1n_2l,k_1k_2}         & =\pi \sqrt{\frac{8}{2l+1}}\sum\limits_m {c_{n_1lm,k_1}^{i *}}c_{n_2lm,k_2}^i \label{eq: power spectrum}
+   \end{align*}
+
+   % $g_{nl}$ = orthonormalised radial Gaussian basis functions
+
+   % $Y_{lm}$ = spherical harmonics
+
+\end{frame}
+
 
 \backupend
 \end{document}

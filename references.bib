@@ -2691,16 +2691,18 @@
 
 @article{Colonna2022,
   title = {Koopmans {{Spectral Functionals}} in {{Periodic Boundary Conditions}}},
-  author = {Colonna, Nicola and Gennaro, Riccardo De and Linscott, Edward and Marzari, Nicola},
+  author = {Colonna, Nicola and De Gennaro, Riccardo and Linscott, Edward and Marzari, Nicola},
   year = {2022},
-  month = aug,
+  month = sep,
   journal = {J. Chem. Theory Comput.},
+  volume = {18},
+  number = {9},
+  pages = {5435--5448},
   publisher = {{American Chemical Society}},
+  issn = {1549-9618},
   doi = {10.1021/acs.jctc.2c00161},
-  urldate = {2022-08-09},
-  abstract = {Koopmans spectral functionals aim to describe simultaneously ground-state properties and charged excitations of atoms, molecules, nanostructures, and periodic crystals. This is achieved by augmenting standard density functionals with simple but physically motivated orbital-density-dependent corrections. These corrections act on a set of localized orbitals that, in periodic systems, resemble maximally localized Wannier functions. At variance with the original, direct supercell implementation (Phys. Rev. X 2018, 8, 021051), we discuss here (i) the complex but efficient formalism required for a periodic boundary code using explicit Brillouin zone sampling and (ii) the calculation of the screened Koopmans corrections with density functional perturbation theory. In addition to delivering improved scaling with system size, the present development makes the calculation of band structures with Koopmans functionals straightforward. The implementation in the open-source Quantum ESPRESSO distribution and the application to prototypical insulating and semiconducting systems are presented and discussed.},
-  copyright = {\textcopyright{} 2022 American Chemical Society},
-  langid = {english}
+  urldate = {2023-08-22},
+  abstract = {Koopmans spectral functionals aim to describe simultaneously ground-state properties and charged excitations of atoms, molecules, nanostructures, and periodic crystals. This is achieved by augmenting standard density functionals with simple but physically motivated orbital-density-dependent corrections. These corrections act on a set of localized orbitals that, in periodic systems, resemble maximally localized Wannier functions. At variance with the original, direct supercell implementation (Phys. Rev. X 2018, 8, 021051), we discuss here (i) the complex but efficient formalism required for a periodic boundary code using explicit Brillouin zone sampling and (ii) the calculation of the screened Koopmans corrections with density functional perturbation theory. In addition to delivering improved scaling with system size, the present development makes the calculation of band structures with Koopmans functionals straightforward. The implementation in the open-source Quantum ESPRESSO distribution and the application to prototypical insulating and semiconducting systems are presented and discussed.}
 }
 
 @article{Constantin2012,
@@ -3258,6 +3260,22 @@
   archiveprefix = {arxiv}
 }
 
+@article{Dias2023,
+  title = {{{WanTiBEXOS}}: {{A Wannier}} Based {{Tight Binding}} Code for Electronic Band Structure, Excitonic and Optoelectronic Properties of Solids},
+  shorttitle = {{{WanTiBEXOS}}},
+  author = {Dias, Alexandre C. and Silveira, Julian F. R. V. and Qu, Fanyao},
+  year = {2023},
+  month = apr,
+  journal = {Computer Physics Communications},
+  volume = {285},
+  pages = {108636},
+  issn = {0010-4655},
+  doi = {10.1016/j.cpc.2022.108636},
+  urldate = {2023-08-21},
+  abstract = {The Bethe\textendash Salpeter equation (BSE) approach becomes a methodology commonly used for simulating excitonic and optical properties in computer materials sciences. However, BSE approach based directly on first principles demands a high computational cost, being prohibitive for larger systems. In order to overcome this challenge, we have developed WanTiBEXOS, a parallel computational FORTRAN code, constituted of a maximally localized Wannier functions based tight-binding (MLWF-TB) model in conjunction with BSE framework. The MLWF-TB Hamiltonian used in WanTiBEXOS package can be obtained via any density functional theory package interfaced with Wannier90 code. It's expected, due MLWF-TB formalism, a computational time reduction around one or more orders of magnitude in comparison with BSE ab initio implementations. In order to demonstrate its reliability, flexibility, efficiency and versatility of WanTiBEXOS, we simulate electronic and optical property calculations for the representative materials, including conventional bulk semiconductors, perovskites, nano-monolayer materials and van der Waals heterostructures. Program summary Program Title: WanTiBEXOS CPC Library link to program files: https://doi.org/10.17632/4vh76mnkv5.1 Developer's repository link: https://github.com/ac-dias/wantibexos Licensing provisions: GNU General Public Licence 3.0 Programming language: Fortran90 (Intel compiler) External routines: OpenMP and Intel Math Kernel Library (MKL) Nature of problem: Calculate electronic, optical, and excitonic properties of solids. Solution method: Tight-binding approach under maximally localized Wannier functions (MLWF) parametrization to describe standard electronic properties and the Bethe\textendash Salpeter formalism for excitonic properties.},
+  keywords = {Electronic and optical properties,Excitons,Tight-Binding,Wannier functions}
+}
+
 @article{Didziulis1988,
   title = {Variable Photon Energy Photoelectron Spectroscopic Studies of Copper Chlorides: An Experimental Probe of Metal-Ligand Bonding and Changes in Electronic Structure on Ionization},
   author = {Didziulis, Stephen V and Cohen, Susan L and Gewirth, Andrew A and Solomon, Edward I},
@@ -3765,6 +3783,24 @@
   keywords = {ab initio molecular dynamics; density functional t}
 }
 
+@article{Fedorov2023,
+  title = {Exciton {{Nature}} of {{Plasma Phase Transition}} in {{Warm Dense Fluid Hydrogen}}: {{ROKS Simulation}}**},
+  shorttitle = {Exciton {{Nature}} of {{Plasma Phase Transition}} in {{Warm Dense Fluid Hydrogen}}},
+  author = {Fedorov, Ilya D. and Stegailov, Vladimir V.},
+  year = {2023},
+  journal = {ChemPhysChem},
+  volume = {24},
+  number = {6},
+  pages = {e202200730},
+  issn = {1439-7641},
+  doi = {10.1002/cphc.202200730},
+  urldate = {2023-08-08},
+  abstract = {The transition of warm dense fluid hydrogen from an insulator to a conducting state at pressures of about 20\textendash 400 GPa and temperatures of 500\textendash 5000 K has been the subject of active scientific research over the past few decades. However, various experimental and theoretical methods do not provide consistent results. In this work, we have applied the restricted open-shell Kohn\textendash Sham (ROKS) method for first principles molecular dynamics of dense hydrogen after thermal excitation to the first singlet excited state. The Wannier localization method has allowed us to analyze the exciton dynamics in this system. The model shows that a key mechanism of the transition is associated with the dissociation of electron-hole pairs, which allows explaining several stages of the transition of fluid H2 from molecular state to plasma. This mechanism is able to give a quantitative description of several experimental results as well as to resolve the discrepancies between experimental studies.},
+  copyright = {\textcopyright{} 2022 Wiley-VCH GmbH},
+  langid = {english},
+  keywords = {exciton dissociation,hydrogen,phase transitions,plasma chemistry,restricted open-shell Kohn\textendash Sham method}
+}
+
 @article{Fender1968a,
   title = {Covalency Parameters in {{MnO}}, \{\$\textbackslash alpha\$-\vphantom\}{{MnS}}\vphantom\{\}, and {{NiO}}},
   author = {Fender, B. E. F. and Jacobson, A. J. and Wedgwood, F. A.},
@@ -4072,6 +4108,21 @@
   copyright = {2021 Springer Nature Limited},
   langid = {english},
   keywords = {Electronic materials,Electronic properties and materials,Electronic structure,Imaging techniques}
+}
+
+@article{Frank1998,
+  title = {Molecular Dynamics in Low-Spin Excited States},
+  author = {Frank, Irmgard and Hutter, J{\"u}rg and Marx, Dominik and Parrinello, Michele},
+  year = {1998},
+  month = mar,
+  journal = {The Journal of Chemical Physics},
+  volume = {108},
+  number = {10},
+  pages = {4060--4069},
+  issn = {0021-9606},
+  doi = {10.1063/1.475804},
+  urldate = {2023-08-08},
+  abstract = {A Kohn\textendash Sham-like formalism is introduced for the treatment of excited singlet states. Motivated by ideas of Ziegler's sum method and of restricted open-shell Hartree\textendash Fock theory, a self-consistent scheme is developed that allows the efficient and accurate calculation of excited state geometries. Vertical as well as adiabatic excitation energies for the n\textrightarrow{$\pi$}* transitions of several small molecules are obtained with reasonable accuracy. As is demonstrated for the cis-trans isomerization of formaldimine, our scheme is suited to perform molecular dynamics in the excited singlet state. This represents a first step towards the simulation of photochemical reactions of large systems.}
 }
 
 @article{Franzen2001a,
@@ -4612,8 +4663,7 @@
   volume = {7},
   issn = {2296-2646},
   urldate = {2022-10-12},
-  abstract = {The GW approximation in electronic structure theory has become a widespread tool for predicting electronic excitations in chemical compounds and materials. In the realm of theoretical spectroscopy, the GW method provides access to charged excitations as measured in direct or inverse photoemission spectroscopy. The number of GW calculations in the past two decades has exploded with increased computing power and modern codes. The success of GW can be attributed to many factors: favorable scaling with respect to system size, a formal interpretation for charged excitation energies, the importance of dynamical screening in real systems, and its practical combination with other theories. In this review, we provide an overview of these formal and practical considerations. We expand, in detail, on the choices presented to the scientist performing GW calculations for the first time. We also give an introduction to the many-body theory behind GW, a review of modern applications like molecules and surfaces, and a perspective on methods which go beyond conventional GW calculations. This review addresses chemists, physicists and material scientists with an interest in theoretical spectroscopy. It is intended for newcomers to GW calculations but can also serve as an alternative perspective for experts and an up-to-date source of computational techniques.},
-  note = {\url{https://www.frontiersin.org/articles/10.3389/fchem.2019.00377}}
+  abstract = {The GW approximation in electronic structure theory has become a widespread tool for predicting electronic excitations in chemical compounds and materials. In the realm of theoretical spectroscopy, the GW method provides access to charged excitations as measured in direct or inverse photoemission spectroscopy. The number of GW calculations in the past two decades has exploded with increased computing power and modern codes. The success of GW can be attributed to many factors: favorable scaling with respect to system size, a formal interpretation for charged excitation energies, the importance of dynamical screening in real systems, and its practical combination with other theories. In this review, we provide an overview of these formal and practical considerations. We expand, in detail, on the choices presented to the scientist performing GW calculations for the first time. We also give an introduction to the many-body theory behind GW, a review of modern applications like molecules and surfaces, and a perspective on methods which go beyond conventional GW calculations. This review addresses chemists, physicists and material scientists with an interest in theoretical spectroscopy. It is intended for newcomers to GW calculations but can also serve as an alternative perspective for experts and an up-to-date source of computational techniques.}
 }
 
 @article{Gonze1991a,
@@ -6817,6 +6867,22 @@
   keywords = {Nanocrystallography,Photosystem II}
 }
 
+@article{Kern2023,
+  title = {Simple Extension of the Plane-Wave Final State in Photoemission: {{Bringing}} Understanding to the Photon-Energy Dependence of Two-Dimensional Materials},
+  shorttitle = {Simple Extension of the Plane-Wave Final State in Photoemission},
+  author = {Kern, Christian S. and Haags, Anja and Egger, Larissa and Yang, Xiaosheng and Kirschner, Hans and Wolff, Susanne and Seyller, Thomas and Gottwald, Alexander and Richter, Mathias and De Giovannini, Umberto and Rubio, Angel and Ramsey, Michael G. and Bocquet, Fran{\c c}ois C. and Soubatch, Serguei and Tautz, F. Stefan and Puschnig, Peter and Moser, Simon},
+  year = {2023},
+  month = aug,
+  journal = {Phys. Rev. Res.},
+  volume = {5},
+  number = {3},
+  pages = {033075},
+  publisher = {{American Physical Society}},
+  doi = {10.1103/PhysRevResearch.5.033075},
+  urldate = {2023-08-09},
+  abstract = {Angle-resolved photoemission spectroscopy (ARPES) is a method that measures orbital and band structure contrast through the momentum distribution of photoelectrons. Its simplest interpretation is obtained in the plane-wave approximation, according to which photoelectrons propagate freely to the detector. The photoelectron momentum distribution is then essentially given by the Fourier transform of the real-space orbital. While the plane-wave approximation is remarkably successful in describing the momentum distributions of aromatic compounds, it generally fails to capture kinetic-energy-dependent final-state interference and dichroism effects. Focusing our present study on quasi-freestanding monolayer graphene as the archetypical two-dimensional (2D) material, we observe an exemplary Ekin-dependent modulation of, and a redistribution of spectral weight within, its characteristic horseshoe signature around the \textasciimacron K and \textasciimacron K{${'}$} points: both effects indeed cannot be rationalized by the plane-wave final state. Our data are, however, in remarkable agreement with ab initio time-dependent density functional simulations of a freestanding graphene layer and can be explained by a simple extension of the plane-wave final state, permitting the two dipole-allowed partial waves emitted from the C 2pz orbitals to scatter in the potential of their immediate surroundings. Exploiting the absolute photon flux calibration of the Metrology Light Source, this scattered-wave approximation allows us to extract Ekin-dependent amplitudes and phases of both partial waves directly from photoemission data. The scattered-wave approximation thus represents a powerful yet intuitive refinement of the plane-wave final state in photoemission of 2D materials and beyond.}
+}
+
 @article{Kestner1962,
   title = {Study of {{Electron Correlation}} in {{Helium-Like Systems Using}} an {{Exactly Soluble Model}}},
   author = {Kestner, Neil R. and Sinano{\=g}lu, Oktay},
@@ -7389,6 +7455,7 @@
   title = {Pytest 7.1},
   author = {Krekel, Holger and Oliveira, Bruno and Pfannschmidt, Ronny and Bruynooghe, Floris and Laugher, Brianna and Bruhin, Florian},
   year = {2004},
+  urldate = {2022-06-05},
   howpublished = {\url{https://github.com/pytest-dev/pytest}}
 }
 
@@ -8344,7 +8411,7 @@
   journal = {Natl. Sci. Rev.},
   volume = {5},
   pages = {203--215},
-  urldate = {2020-04-04},
+  urldate = {2020-04-04}
 }
 
 @article{Li2019,
@@ -8580,22 +8647,18 @@
   copyright = {All rights reserved}
 }
 
-@misc{Linscott2023,
-  title = {Koopmans: An Open-Source Package for Accurately and Efficiently Predicting Spectral Properties with {{Koopmans}} Functionals},
+@article{Linscott2023,
+  title = {Koopmans: {{An Open-Source Package}} for {{Accurately}} and {{Efficiently Predicting Spectral Properties}} with {{Koopmans Functionals}}},
   shorttitle = {Koopmans},
-  author = {Linscott, Edward and Colonna, Nicola and De Gennaro, Riccardo and Nguyen, Ngoc Linh and Borghi, Giovanni and Ferretti, Andrea and Dabo, Ismaila and Marzari, Nicola},
+  author = {Linscott, Edward B. and Colonna, Nicola and De Gennaro, Riccardo and Nguyen, Ngoc Linh and Borghi, Giovanni and Ferretti, Andrea and Dabo, Ismaila and Marzari, Nicola},
   year = {2023},
-  month = feb,
-  number = {arXiv:2302.07759},
-  eprint = {2302.07759},
-  primaryclass = {cond-mat, physics:physics},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2302.07759},
-  urldate = {2023-02-17},
-  abstract = {Over the past decade we have developed Koopmans functionals, a computationally efficient approach for predicting spectral properties with an orbital-density-dependent functional formulation. These functionals address two fundamental issues with density functional theory (DFT). First, while Kohn-Sham eigenvalues can loosely mirror experimental quasiparticle energies, they are not meant to reproduce excitation energies and there is formally no connection between the two (except for the HOMO for the exact functional). Second, (semi-)local DFT deviates from the expected piecewise linear behavior of the energy as a function of the total number of electrons. This can make eigenvalues an even poorer proxy for quasiparticle energies and, together with the absence of the exchange-correlation derivative discontinuity, contributes to DFT's underestimation of band gaps. By enforcing a generalized piecewise linearity condition to the entire electronic manifold, Koopmans functionals yield molecular orbital energies and solid-state band structures with comparable accuracy to many-body perturbation theory but at greatly reduced computational cost and preserving a functional formulation. This paper introduces "koopmans", an open-source package that contains all of the code and workflows needed to perform Koopmans functional calculations without requiring expert knowledge. The theory and algorithms behind Koopmans functionals are summarized, and it is shown how one can easily use the koopmans package to obtain reliable spectral properties of molecules and materials.},
-  archiveprefix = {arxiv},
-  copyright = {All rights reserved},
-  keywords = {Condensed Matter - Materials Science,Physics - Chemical Physics,Physics - Computational Physics}
+  month = aug,
+  journal = {J. Chem. Theory Comput.},
+  publisher = {{American Chemical Society}},
+  issn = {1549-9618},
+  doi = {10.1021/acs.jctc.3c00652},
+  urldate = {2023-08-24},
+  abstract = {Over the past decade we have developed Koopmans functionals, a computationally efficient approach for predicting spectral properties with an orbital-density-dependent functional framework. These functionals impose a generalized piecewise linearity condition to the entire electronic manifold, ensuring that orbital energies match the corresponding electron removal/addition energy differences (in contrast to semilocal DFT, where a mismatch between the two lies at the heart of the band gap problem and, more generally, the unreliability of Kohn\textendash Sham orbital energies). This strategy has proven to be very powerful, yielding molecular orbital energies and solid-state band structures with comparable accuracy to many-body perturbation theory but at greatly reduced computational cost while preserving a functional formulation. This paper reviews the theory of Koopmans functionals, discusses the algorithms necessary for their implementation, and introduces koopmans, an open-source package that contains all of the code and workflows needed to perform Koopmans functional calculations and obtain reliable spectral properties of molecules and materials.}
 }
 
 @mastersthesis{LinscottMasters,
@@ -8870,7 +8933,7 @@
   address = {{Berlin}},
   urldate = {2023-01-26},
   isbn = {978-3-642-18865-7},
-  langid = {english},
+  langid = {english}
 }
 
 @misc{Maestro,
@@ -10158,8 +10221,7 @@
   title = {{{NIST Chemistry WebBook}}, {{NIST Standard Reference Database Number}} 69},
   author = {Linstrom, P.J. and Mallard, W.G.},
   publisher = {{National Institute of Standards and Technology}},
-  address = {{Gaithersburg MD, 20899}},
-  note = {\url{https://doi.org/10.18434/T4D303}}
+  address = {{Gaithersburg MD, 20899}}
 }
 
 @article{Novich1979,
@@ -14291,6 +14353,22 @@
   pmid = {23937307}
 }
 
+@misc{Uria-Alvarez2023,
+  title = {Efficient Computation of Optical Excitations in Two-Dimensional Materials with the {{Xatu}} Code},
+  author = {{Ur{\'i}a-{\'A}lvarez}, Alejandro Jos{\'e} and {Esteve-Paredes}, Juan Jos{\'e} and {Garc{\'i}a-Bl{\'a}zquez}, Manuel Antonio and Palacios, Juan Jos{\'e}},
+  year = {2023},
+  month = jul,
+  number = {arXiv:2307.01572},
+  eprint = {2307.01572},
+  primaryclass = {cond-mat},
+  publisher = {{arXiv}},
+  doi = {10.48550/arXiv.2307.01572},
+  urldate = {2023-08-21},
+  abstract = {Here we describe an efficient numerical implementation of the Bethe-Salpeter equation to obtain the excitonic spectrum of semiconductors. This is done on the electronic structure calculated either at the simplest tight-binding level or through density funcional theory calculations based on local orbitals. We use a simplified model for the electron-electron interactions which considers atomic orbitals as point-like orbitals and a phenomenological screening. The optical conductivity can then be optionally computed within the Kubo formalism. Our results for paradigmatic two-dimensional materials such as hBN and MoS2, when compared with those of more sophisticated first-principles methods, are excellent and envision a practical use of our implementation beyond the computational limitations of such methods.},
+  archiveprefix = {arxiv},
+  keywords = {Condensed Matter - Materials Science,Condensed Matter - Mesoscale and Nanoscale Physics}
+}
+
 @techreport{USDrive2013,
   title = {Advanced {{Combustion}} and {{Emission Control Technical Team Roadmap}}},
   year = {2013},
@@ -16011,6 +16089,12 @@
   doi = {10.1021/acs.jctc.9b00552},
   urldate = {2023-07-27},
   langid = {english}
+}
+
+@misc{zotero-9444,
+  title = {Koopmans Manuscript for Publication - Edwardlinscott@gmail.Com - {{Gmail}}},
+  urldate = {2023-08-07},
+  howpublished = {\url{https://mail.google.com/mail/u/0/\#inbox/FMfcgzGtwWGdMZwVvZxlTjzsCmxVvCpl?projector=1&messagePartId=0.1}}
 }
 
 @article{Zuehlsdorff2016,
