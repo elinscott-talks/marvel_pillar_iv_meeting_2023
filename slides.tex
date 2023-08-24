@@ -482,9 +482,9 @@
          \only<1>{
             \includegraphics[width=\columnwidth]{figures/curvature_plot/fig_en_curve_gradients_zoom.pdf}
          }
-         \only<2>{
-            \includegraphics[height=0.6\textheight]{figures/fig_gw100_dscf_cf_ks.png}
-         }
+         % \only<2>{
+         %    \includegraphics[height=0.6\textheight]{figures/fig_gw100_dscf_cf_ks.png}
+         % }
       \end{minipage}
    }
 \end{frame}
@@ -492,11 +492,13 @@
 \begin{frame}{Koopmans functionals: theory}
 
    \vspace{-1.5ex}
+   \begin{overlayarea}{\textwidth}{0.3\paperheight}
+      \only<1-7>{
    \begin{align*}
-      E_\mathsf{Koopmans}[\rho,\only<9->{\textcolor{red}}{\{f_i\}}, \only<6-7>{\textcolor{red}}{\{\alpha_i\}}]
+      E_\mathsf{Koopmans}[\rho,\only<8->{\textcolor{red}}{\{f_i\}}, \only<6>{\textcolor{red}}{\{\alpha_i\}}]
       = \only<2>{\textcolor{red}}{E_{DFT}[\rho]}
       + \sum_i
-      \only<6-7>{\textcolor{red}}
+      \only<6>{\textcolor{red}}
       {\alpha_i}
       \Biggl(
       -
@@ -507,12 +509,29 @@
       }
       +
       \underbrace{
-         \only<4>{\textcolor{red}}{f_i \only<8>{\textcolor{red}}{\eta_i}}
+         \only<4>{\textcolor{red}}{f_i \only<7>{\textcolor{red}}{\eta_i}}
       }_{
          \substack{\text{restores} \\ \text{linearity}}
       }
       \Biggr)
    \end{align*}
+      }
+      \only<8->{
+
+   \begin{align*}
+      E_\mathsf{KI}[\rho,\only<9->{\textcolor{red}}{\{\rho_i\}}, \only<6>{\textcolor{red}}{\{\alpha_i\}}]
+      = \only<2>{\textcolor{red}}{E_{DFT}[\rho]}
+      + \sum_i
+      \only<6>{\textcolor{red}}
+      {\alpha_i}
+      \biggl(&
+      E_{\rm Hxc} [\rho-\only<9>{\textcolor{red}}{\rho_i}] -E_{\rm Hxc}[\rho] \nonumber \\
+      & \qquad + f_i \left( E_{\rm Hxc}[\rho-\only<9>{\textcolor{red}}{\rho_i}+\only<9>{\textcolor{red}}{n_i}] -E_{\rm Hxc}[\rho-\only<9>{\textcolor{red}}{\rho_i}] \right)
+      \biggr)
+   \end{align*}
+      }
+\end{overlayarea}
+
    \begin{overlayarea}{\textwidth}{0.5\paperheight}
       \centering
       \only<1-4>{
@@ -538,30 +557,30 @@
          \raggedright
          Features:
          \begin{itemize}
-            \item<6-> screening
-            \item<8-> different variants: KI (leaves total energy unchanged), KIPZ (exact for 1-electron systems), pKIPZ
+            \item<6-> screening (calculated ab initio)
+            \item<7-> different variants: KI (leaves total energy unchanged), KIPZ (exact for 1-electron systems), pKIPZ
             \item<9-> orbital-density dependence
          \end{itemize}
       }
-      \only<9->{
-         \begin{equation*}
-            v^\mathrm{KI}_{\textcolor{red}{i}}/\alpha_i = - E_{\mathrm{H}}\left[\textcolor{red}{n_{i}}\right]
-            + E_{\mathrm{xc}}\left[\rho\right]
-            - E_{\mathrm{xc}}\left[\rho-\textcolor{red}{n_{i}}\right]
-            - \int d\mathbf{r'}
-            v_\mathrm{xc}(\mathbf{r}', [\rho])
-            \textcolor{red}{n_{i}}(\mathbf{r}')
-         \end{equation*}
-      }
-      \only<6-7>{
-         \begin{equation*}
-            \frac{d E}{d f_i}
-            \approx
-            \alpha_i \frac{\partial E}{\partial f_i}
-            \onslide<7->{
-               \Rightarrow \varepsilon_i^\mathsf{Koopmans} = \frac{\partial E_\mathsf{Koopmans}}{\partial f_i}  \approx E_i(N-1) - E(N)}
-         \end{equation*}
-      }
+      % \only<8->{
+      %    \begin{equation*}
+      %       v^\mathrm{KI}_{\textcolor{red}{i}}/\alpha_i = - E_{\mathrm{H}}\left[\textcolor{red}{n_{i}}\right]
+      %       + E_{\mathrm{xc}}\left[\rho\right]
+      %       - E_{\mathrm{xc}}\left[\rho-\textcolor{red}{n_{i}}\right]
+      %       - \int d\mathbf{r'}
+      %       v_\mathrm{xc}(\mathbf{r}', [\rho])
+      %       \textcolor{red}{n_{i}}(\mathbf{r}')
+      %    \end{equation*}
+      % }
+      % \only<6-7>{
+      %    \begin{equation*}
+      %       \frac{d E}{d f_i}
+      %       \approx
+      %       \alpha_i \frac{\partial E}{\partial f_i}
+      %       \onslide<7->{
+      %          \Rightarrow \varepsilon_i^\mathsf{Koopmans} = \frac{\partial E_\mathsf{Koopmans}}{\partial f_i}  \approx E_i(N-1) - E(N)}
+      %    \end{equation*}
+      % }
 
    \end{overlayarea}
    \blfootcite{Dabo2010,Borghi2014,Colonna2019}
@@ -571,6 +590,7 @@
 \begin{frame}{Koopmans functionals: theory}
    Consequences of ODD:
    \begin{itemize}[<+->]
+      \item a natural generalisation in the direction of spectral functional theory\footcite{Ferretti2014}
       \item variational (localised, minimising) vs canonical (delocalised, diagonalising) orbitals
             \begin{figure}[t]
                \centering
@@ -584,12 +604,20 @@
                   \caption{canonical}
                \end{subfigure}
             \end{figure}
-      \item localised variational orbitals naturally allow us to treat bulk systems
-      \item ODD functional means that we know $\hat H \ket{\varphi_i}$ for variational orbitals $\{\ket{\varphi_i}\}$ but we don't know $\hat H$ in general
       \item Practically we can often use MLWFs
-      \item a natural generalisation in the direction of spectral functional theory\footcite{Ferretti2014}
+      \item localised variational orbitals naturally allow us to treat bulk systems
+      % \item ODD functional means that we know $\hat H \ket{\varphi_i}$ for variational orbitals $\{\ket{\varphi_i}\}$ but we don't know $\hat H$ in general
    \end{itemize}
    \blfootcite{Nguyen2018}
+\end{frame}
+
+\begin{frame}{Koopmans functionals: theory}
+
+   \begin{center}
+      \includegraphics[width=0.8\textwidth]{figures/fig_nguyen_scaling.png}
+   \end{center}
+   \blfootcite{Nguyen2018}
+
 
 \end{frame}
 
@@ -784,9 +812,10 @@
 \begin{frame}{Koopmans functionals: caveats}
 
    \begin{itemize}[<+->]
+      \item will \emph{not} solve H$_2^+$!
       \item restricted to systems with a non-zero band gap
       \item empty state localization in the bulk limit
-      \item can potentially break the crystal point group symmetry
+      \item can potentially break the crystal point group symmetry\blfootcite{Su2020}
    \end{itemize}
 \end{frame}
 
@@ -831,18 +860,6 @@
 
    \blfootcite{Qiao2023}
 
-\end{frame}
-
-\begin{frame}{Accelerating improvements: easier Wannierization}
-   Separation of target manifolds via parallel transport to obtain separate occupied and empty manifolds
-
-      \begin{figure}
-         \onslide<2->{
-         \includegraphics[width=0.5\columnwidth]{figures/target_manifolds_fig1b.png}
-         }
-      \end{figure}
-
-   \blfootcite{Qiao2023a}
 \end{frame}
 
 \begin{frame}{Accelerating improvements: screening via DFPT}
@@ -932,7 +949,7 @@
 
    % \vspace{4ex}
 
-   But complex workflows mean that...
+   Complicated workflows mean that...
    \begin{itemize}
       \item lots of different codes that need to handshake
       \item lots of scope for human error
@@ -977,37 +994,6 @@
    \end{columns}
    \footnotetext[1]{\cite{Linscott2023}}
    \footnotetext[2]{\cite{Larsen2017}}
-\end{frame}
-
-\begin{frame}{koopmans: the input file}
-   \begin{minipage}[t]{0.475\columnwidth}
-      \inputminted[fontsize=\tiny,breaklines,lastline=20]{json}{scripts/si.json}
-   \end{minipage}
-   \hspace{0.025\textwidth}
-   \begin{minipage}[t]{0.475\columnwidth}
-      \inputminted[fontsize=\tiny,breaklines,firstline=21]{json}{scripts/si.json}
-   \end{minipage}
-\end{frame}
-
-% \begin{frame}{koopmans: the output file}
-%    \vspace{-2ex}
-%    \only<1>{
-%       \inputminted[fontsize=\scriptsize,breaklines]{text}{scripts/si_ki_full.out}
-%    }
-%    \only<2>{
-%       \inputminted[fontsize=\scriptsize,breaklines,firstline=25]{text}{scripts/si_ki_full.out}
-%    }
-%    \only<3>{
-%       \inputminted[fontsize=\scriptsize,breaklines,firstline=50]{text}{scripts/si_ki_full.out}
-%    }
-%    \only<4>{
-%       \inputminted[fontsize=\scriptsize,breaklines,firstline=75]{text}{scripts/si_ki_full.out}
-%    }
-% \end{frame}
-
-\begin{frame}{koopmans is scriptable}
-   \vspace{-2ex}
-   \inputminted[fontsize=\scriptsize,breaklines]{python}{scripts/si.py}
 \end{frame}
 
 % \begin{frame}{Neutral excitations with Koopmans}
@@ -1190,15 +1176,18 @@
    \blfootcite{DeGennaro2022}
 \end{frame}
 
-\begin{frame}{Extrapolating properly to the bulk limit}
+\begin{frame}{Accelerating improvements: easier Wannierization}
+   Separation of target manifolds via parallel transport to obtain separate occupied and empty manifolds
 
-   \begin{centering}
-      \includegraphics[width=0.8\textwidth]{figures/fig_nguyen_scaling.png}
-   \end{centering}
+      \begin{figure}
+         \onslide<2->{
+         \includegraphics[width=0.5\columnwidth]{figures/target_manifolds_fig1b.png}
+         }
+      \end{figure}
 
-   \blfootcite{Nguyen2018}
-   
+   \blfootcite{Qiao2023a}
 \end{frame}
+
 
 \begin{frame}{Accelerating improvements: screening via ML}
    \begin{center}
@@ -1238,6 +1227,38 @@
    % $Y_{lm}$ = spherical harmonics
 
 \end{frame}
+
+\begin{frame}{koopmans: the input file}
+   \begin{minipage}[t]{0.475\columnwidth}
+      \inputminted[fontsize=\tiny,breaklines,lastline=20]{json}{scripts/si.json}
+   \end{minipage}
+   \hspace{0.025\textwidth}
+   \begin{minipage}[t]{0.475\columnwidth}
+      \inputminted[fontsize=\tiny,breaklines,firstline=21]{json}{scripts/si.json}
+   \end{minipage}
+\end{frame}
+
+% \begin{frame}{koopmans: the output file}
+%    \vspace{-2ex}
+%    \only<1>{
+%       \inputminted[fontsize=\scriptsize,breaklines]{text}{scripts/si_ki_full.out}
+%    }
+%    \only<2>{
+%       \inputminted[fontsize=\scriptsize,breaklines,firstline=25]{text}{scripts/si_ki_full.out}
+%    }
+%    \only<3>{
+%       \inputminted[fontsize=\scriptsize,breaklines,firstline=50]{text}{scripts/si_ki_full.out}
+%    }
+%    \only<4>{
+%       \inputminted[fontsize=\scriptsize,breaklines,firstline=75]{text}{scripts/si_ki_full.out}
+%    }
+% \end{frame}
+
+\begin{frame}{koopmans is scriptable}
+   \vspace{-2ex}
+   \inputminted[fontsize=\scriptsize,breaklines]{python}{scripts/si.py}
+\end{frame}
+
 
 
 \backupend
