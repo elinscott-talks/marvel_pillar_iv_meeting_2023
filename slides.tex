@@ -213,6 +213,7 @@
 \definecolor{gruvbox_dark_bg}{HTML}{282828}
 \definecolor{gruvbox_fg}{HTML}{ebdbb2}
 \definecolor{kgrey}{HTML}{2b2828}
+\definecolor{marvelred}{HTML}{c00000}
 \setminted[python]{bgcolor=gruvbox_dark_bg}
 \setminted[json]{bgcolor=gruvbox_dark_bg}
 \setminted[shell-session]{style=gruvbox_plain, bgcolor=gruvbox_dark_bg}
@@ -224,7 +225,7 @@
 % %\lstset{numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=5pt}
 % \lstset{linewidth=4.9in,xleftmargin=10pt}
 
-\setbeamercolor{frametitle}{bg=kgrey,fg=white}
+\setbeamercolor{frametitle}{bg=white,fg=kgrey}
 \setbeamerfont{normal text}{family=helvet}
 \setbeamerfont{local structure}{family=helvet}
 
@@ -233,7 +234,7 @@
 \setbeamercolor*{title in head/foot}{bg=seaborn_blue,fg=white}
 \setbeamercolor*{date in head/foot}{bg=seaborn_blue,fg=white}
 \setbeamercolor{title}{bg=seaborn_blue}
-\setbeamercolor{under headline}{bg=seaborn_red}
+\setbeamercolor{under headline}{bg=marvelred}
 \setbeamercolor{footline}{bg=seaborn_blue}
 \setbeamercolor{caption name}{fg=seaborn_blue}
 \setbeamercolor{block title}{bg=kgrey,fg=white}
@@ -246,11 +247,11 @@
 \setbeamertemplate{enumerate items}[default]
 \setbeamertemplate{blocks}[default]
 \setbeamertemplate{itemize items}{\normalsize $\bullet$}
-\setbeamercolor{description item}{fg=seaborn_blue}
-\setbeamercolor{enumerate item}{fg=seaborn_blue}
-\setbeamercolor{itemize item}{fg=seaborn_blue}
-\setbeamercolor{itemize subitem}{fg=seaborn_blue}
-\setbeamercolor{itemize subsubitem}{fg=seaborn_blue}
+\setbeamercolor{description item}{fg=marvelred}
+\setbeamercolor{enumerate item}{fg=marvelred}
+\setbeamercolor{itemize item}{fg=marvelred}
+\setbeamercolor{itemize subitem}{fg=marvelred}
+\setbeamercolor{itemize subsubitem}{fg=marvelred}
 \setbeamercolor*{bibliography entry title}{fg=seaborn_bg_grey_darker}
 \setbeamercolor*{bibliography entry author}{fg=seaborn_bg_grey_darker}
 \setbeamercolor*{bibliography entry location}{fg=seaborn_bg_grey_darker}
@@ -261,20 +262,6 @@
 \setbeamerfont*{title in head/foot}{size=\small}
 \setbeamerfont*{date in head/foot}{size=\small}
 \setbeamerfont*{institute}{size=\Large}
-
-\setbeamertemplate{frametitle}
-{
-  \leavevmode%
-  \vspace{-20pt}
-  \begin{beamercolorbox}[wd=\paperwidth,ht=1cm]{frametitle}
-   \hspace{0.115em}
-   \vphantom{P/p} \bf \insertframetitle \vspace{0.2cm}
-   \end{beamercolorbox}%
-  %  \vskip-0.6cm%
-  % \begin{beamercolorbox}[wd=\paperwidth,ht=0.5ex]{under headline}%
-  %   \end{beamercolorbox}%
-	
-}
 
 \newcommand{\insertframeinfo}{| \insertframenumber/\inserttotalframenumber}
 \newcommand{\backupbegin}{
@@ -289,24 +276,15 @@
 
 \setbeamertemplate{frametitle}
 {
-  \vspace{-1pt}
-  \begin{beamercolorbox}[wd=\paperwidth,ht=0.8cm]{frametitle}
-   \hspace{0.05em}
-   \begin{minipage}{0.8\textwidth}
-     \bf \insertframetitle
+  \begin{beamercolorbox}[wd=\paperwidth,ht=1cm]{frametitle}
+     \center
+     \color{marvelred}
+     \MakeUppercase{\insertframetitle}
 
-   \end{minipage}
-   \hfill
-   \begin{minipage}{0.15\textwidth}
-   \begin{flushright}
-   \scriptsize \textbf{Edward Linscott}
-   
-   \includegraphics[height=0.21cm]{logos/white_cropped.eps}
-   \textbf{\insertframeinfo}
-   \end{flushright}
-   \end{minipage}
-   \vspace{0.125cm}
+     \vspace{-1.5ex}
+     \rule{\textwidth}{1.5pt}
   \end{beamercolorbox}%
+
 }
 
 \setbeamertemplate{title page}
@@ -351,6 +329,13 @@
 %\setbeamerfont{frametitle}{series=\bfseries}
 \setbeamertemplate{footline}
 {
+   \hspace{3ex}
+   \includegraphics[height = 0.06\paperheight]{logos/SNF_logo_standard_print_color_pos_e.eps}
+   \hfill
+   \includegraphics[height = 0.04\paperheight]{figures/logo_marvel_color_transparent_hexagons_only.png}
+   \hspace{3ex}
+
+   \vspace{1ex}
 }
 
 % Title slide %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -361,7 +346,10 @@
 \date{10 Oct 2023}
 \begin{document}
 
+\begingroup
+\setbeamertemplate{footline}{}
 \frame{\titlepage}
+\endgroup
 
 % \begin{frame}{Koopmans functionals: theory}
 %    \hbox{
@@ -571,7 +559,7 @@
       Mean absolute error (eV) across prototypical semiconductors and insulators
 
       \vspace{1ex}
-      \begin{tabular}{c S[table-format = 2.2] S[table-format = 2.2] >{\color{seaborn_red}\bfseries}S[table-format = 2.2] >{\color{seaborn_red}\bfseries}S[table-format = 2.2] S[table-format = 2.2]}
+      \begin{tabular}{c S[table-format = 2.2] S[table-format = 2.2] >{\color{marvelred}\bfseries}S[table-format = 2.2] >{\color{marvelred}\bfseries}S[table-format = 2.2] S[table-format = 2.2]}
                           & {PBE} & {G\textsubscript{0}W\textsubscript{0}} & {KI} & {KIPZ} & {QSG$\tilde{\mathrm{W}}$} \\
          \midrule
          \midrule
@@ -590,8 +578,8 @@
    
 \begin{table}[t]
    \centering
-   \footnotesize
-   \begin{tabular}{r@{ $\rightarrow$ } l *{3}{d{2.2}} >{\color{seaborn_red}}S[table-format = 2.2] >{\color{seaborn_red}}S[table-format = 2.2] d{2.2} @{$\pm$} d{1.2}}
+   \scriptsize
+   \begin{tabular}{r@{ $\rightarrow$ } l *{3}{d{2.2}} >{\color{marvelred}}S[table-format = 2.2] >{\color{marvelred}}S[table-format = 2.2] d{2.2} @{$\pm$} d{1.2}}
       \hline
       \hline
       \multicolumn{2}{c}{ }
@@ -599,9 +587,9 @@
                                 & \multicolumn{1}{c}{G\textsubscript{0}W\textsubscript{0}\footnote{\cite{Shishkin2007} for $E_g$ and \cite{Hybertsen1986} for the transitions;}}
                                 & \multicolumn{1}{c}{scG$\tilde{\mathrm{W}}$\footcite{Shishkin2007a}}
                                 & \multicolumn{1}{c}{
-                                 \textcolor{seaborn_red}{\bfseries KI@[PBE,MLWFs]}}
+                                 \textcolor{marvelred}{\bfseries KI@[PBE,MLWFs]}}
                                 & \multicolumn{1}{c}{
-                                 \textcolor{seaborn_red}{\bfseries KIPZ@PBE}}
+                                 \textcolor{marvelred}{\bfseries KIPZ@PBE}}
                                 & \multicolumn{2}{c}{exp\footcite{Madelung2004}}                                                                                                                                                                   \\
       \hline
       \multicolumn{2}{c}{$E_g$} &
@@ -635,13 +623,13 @@
 \begin{frame}{\normalsize Koopmans functionals give accurate band structures}
    \begin{figure}[t]
       \centering
-      \begin{subfigure}{0.3\textwidth}
+      \begin{subfigure}{0.25\textwidth}
          \includegraphics[width=\columnwidth]{figures/ZnO_lda.png}
       \end{subfigure}
-      \begin{subfigure}{0.3\textwidth}
+      \begin{subfigure}{0.25\textwidth}
          \includegraphics[width=\columnwidth]{figures/ZnO_hse.png}
       \end{subfigure}
-      \begin{subfigure}{0.3\textwidth}
+      \begin{subfigure}{0.25\textwidth}
          \includegraphics[width=\columnwidth]{figures/ZnO_ki.png}
       \end{subfigure}
       \begin{subfigure}{\textwidth} %<-- changed width
@@ -649,7 +637,7 @@
          %    \renewcommand\tabularxcolumn[1]{m{#1}}% <-- added
          %    \renewcommand\arraystretch{1.3}
          %    \setlength\tabcolsep{2pt}% <-- added
-         \begin{tabular}{c S[table-format = 2.2] S[table-format = 2.2] S[table-format = 2.2] S[table-format = 2.2] >{\color{seaborn_red}\bfseries}S[table-format = 2.2] S[table-format = 2.2]}
+         \begin{tabular}{c S[table-format = 2.2] S[table-format = 2.2] S[table-format = 2.2] S[table-format = 2.2] >{\color{marvelred}\bfseries}S[table-format = 2.2] S[table-format = 2.2]}
             ZnO                                  & {LDA} & {HSE} & {GW$_0$} & {scG$\tilde{\rm W}$} & {KI} & {exp}       \\
             \hline
             $E_\mathrm{gap}$ (eV)                & 0.79  & 2.79  & 3.0      & 3.2                  & 3.62 & 3.60        \\
@@ -681,7 +669,7 @@
 %    \begin{center}
 %       \begin{tikzpicture}
 %          \node [inner sep=0pt](fig) at (0,0) {\includegraphics[height=0.35\textheight]{figures/fig_nguyen_prl_spectra.png}};
-%          \draw [very thick, color=seaborn_red] (-5.35,-0.07) rectangle (5.4,1.6);
+%          \draw [very thick, color=marvelred] (-5.35,-0.07) rectangle (5.4,1.6);
 %       \end{tikzpicture}
 %    \end{center}
 %    \vspace{-2ex}
@@ -769,7 +757,7 @@
    % \onslide<6>{
    %    \vspace{-0.375\paperheight}
    %    \begin{flushright}
-   %       \begin{tcolorbox}[enhanced jigsaw, width=4cm, opacityback=0, colframe=seaborn_red, coltext=seaborn_red, left=3pt, bottom=3pt, top=3pt, right=3pt, tikz={rotate=30,transform shape}, boxrule=1.5mm]
+   %       \begin{tcolorbox}[enhanced jigsaw, width=4cm, opacityback=0, colframe=marvelred, coltext=marvelred, left=3pt, bottom=3pt, top=3pt, right=3pt, tikz={rotate=30,transform shape}, boxrule=1.5mm]
    %          \begin{center}
    %             \includegraphics[height=1cm]{./figures/qe_logo_high_res_cropped.jpg}
    %             \bf \huge\ \raisebox{0.3cm}{+}\,
@@ -811,8 +799,9 @@
 
    \begin{columns}
       \begin{column}{0.55\textwidth}
+         \small
          \begin{itemize}
-            \item v1.0 released earlier this year\footnotemark[1]
+            \item v1.0 released earlier this year
             \item implementations of Koopmans functionals within Quantum ESPRESSO
             \item automated workflows
                   \begin{itemize}
@@ -822,7 +811,7 @@
                      \item convergence tests
                      \item ...
                   \end{itemize}
-            \item built on top of ASE\footnotemark[2]
+            \item built on top of ASE
             \item does not require expert knowledge
          \end{itemize}
       \end{column}
@@ -833,27 +822,28 @@
          \includegraphics[width=\columnwidth]{figures/website_cropped.png}
       \end{column}
    \end{columns}
-   \footnotetext[1]{\cite{Linscott2023}}
-   \footnotetext[2]{\cite{Larsen2017}}
 \end{frame}
 
-\begin{frame}{Workflows}
+\begingroup
+\setbeamertemplate{footline}{}
+\begin{frame}{}
    \includegraphics[width=\textwidth]{figures/jctc.png}
    
 \end{frame}
+\endgroup
 
 \begin{frame}{Automating Wannierization}
 
    One remaining manual step: Wannierization. Can we automate this?
 
    \begin{figure}[t]
-      \begin{subfigure}{0.225\textwidth}
+      \begin{subfigure}{0.2\textwidth}
          \onslide<2->{
          \includegraphics[height=1.5\columnwidth]{figures/proj_disentanglement_fig1b.png}
          \vspace{-0.01\paperheight}
          }
       \end{subfigure}
-      \begin{subfigure}{0.225\textwidth}
+      \begin{subfigure}{0.2\textwidth}
          \onslide<3->{
          \includegraphics[height=1.5\columnwidth]{figures/proj_disentanglement_fig1a.png}
          }
@@ -864,7 +854,7 @@
       %    \includegraphics[height=1.5\columnwidth]{figures/proj_disentanglement_fig1d.png}
       %    }
       % \end{subfigure}
-      \begin{subfigure}{0.225\textwidth}
+      \begin{subfigure}{0.2\textwidth}
          \onslide<4->{
          \includegraphics[height=1.5\columnwidth]{figures/proj_disentanglement_fig1f.png}
          }
@@ -881,7 +871,7 @@
    We separate target manifolds via parallel transport to obtain separate occupied and empty manifolds
 
       \begin{figure}
-         \includegraphics[width=0.4\columnwidth]{figures/target_manifolds_fig1b.png}
+         \includegraphics[width=0.3\columnwidth]{figures/target_manifolds_fig1b.png}
       \end{figure}
 
    \onslide<2->{All of the above is supported by \texttt{koopmans}, but more details to be resolved... watch this space!}
@@ -945,7 +935,7 @@
 %       \end{column}
 %       \begin{column}{0.6\textwidth}
 %          \footnotesize
-%          \begin{tabular}{c >{\color{seaborn_red}\bfseries}S[table-format = 2.2] S[table-format = 2.2] S[table-format = 2.2] S[table-format = 2.2] S[table-format = 2.2]}
+%          \begin{tabular}{c >{\color{marvelred}\bfseries}S[table-format = 2.2] S[table-format = 2.2] S[table-format = 2.2] S[table-format = 2.2] S[table-format = 2.2]}
 %             \multirow{2}{*}{Thiel's set} & {KI-BSE} & \multicolumn{2}{c}{G$_0$W$_0$-BSE} & \multicolumn{2}{c}{TDDFT}                   \\
 %                                          & {PBE}    & {PBE}                              & {B3LYP}                   & {PBE} & {B3LYP} \\
 %             \hline
@@ -983,6 +973,8 @@
 
 \end{frame}
 
+\begingroup
+\setbeamertemplate{footline}{}
 \begin{frame}{Acknowledgements}
    \begin{center}
       \footnotesize
@@ -1031,6 +1023,7 @@
    \vspace{2ex}
    \scriptsize
 \end{frame}
+\endgroup
 
 % \backupbegin
 % \begin{frame}{}
@@ -1091,7 +1084,7 @@
 %    \end{figure}
 %    \begin{center}
 %       \footnotesize
-%       \begin{tabular}{l l S[table-format = 2.2] S[table-format = 2.2] >{\color{seaborn_red}\bfseries}S[table-format = 2.2] >{\color{seaborn_red}\bfseries}S[table-format = 2.2] >{\color{seaborn_red}\bfseries}S[table-format = 2.2] S[table-format = 2.2]}
+%       \begin{tabular}{l l S[table-format = 2.2] S[table-format = 2.2] >{\color{marvelred}\bfseries}S[table-format = 2.2] >{\color{marvelred}\bfseries}S[table-format = 2.2] >{\color{marvelred}\bfseries}S[table-format = 2.2] S[table-format = 2.2]}
 %                                &                                  & {PBE} & {QSG$\tilde{\mathsf{W}}$} & {KI} & {pKIPZ} & {\bf KIPZ} & {exp} \\
 %          \midrule
 %          \midrule
