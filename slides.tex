@@ -329,11 +329,9 @@
 
   \vspace{2.5em}
   \begin{center} 
-  \huge
-  \textbf{Koopmans functionals}
+  \LARGE
+  \textbf{Automating the calculation of accurate band structures with Koopmans functionals}
 
-  \normalsize
-  \textbf{accurately and efficiently predicting spectral properties \\ with a functional formulation}
   \end{center}
   \end{minipage}
   \end{tcolorbox}
@@ -341,7 +339,7 @@
   \vspace{-2em}
   \begin{tcolorbox}[width=\paperwidth, enhanced, colback=kgrey, grow to left by=0.035\paperwidth,]
   \begin{center}
-  \footnotesize \bf \insertauthor\quad | \quad\insertshortinstitute\quad | \quad CECAM flagship workshop, Lausanne\quad|\quad \insertdate    
+  \footnotesize \bf \insertauthor\quad | \quad\insertshortinstitute\quad | \quad MARVEL Pillar IV Online Meeting\quad|\quad \insertdate    
   \end{center}
   %  \end{flushright}
   \end{tcolorbox}
@@ -360,330 +358,209 @@
 \title{\noindent\large{an open-source package for accurately predicting spectral properties}}
 \author{Edward Linscott}
 \institute{EPFL}
-\date{25 Aug 2023}
+\date{10 Oct 2023}
 \begin{document}
 
 \frame{\titlepage}
 
-% \begin{frame}{Take home messages}
+% \begin{frame}{Koopmans functionals: theory}
+%    \hbox{
+%       \begin{minipage}{0.5\textwidth}
+%          Goal: spectral properties (charged excitations) with a functional theory
 % 
-%    Koopmans functionals are a class of functionals that aim to reproduce spectral properties and total energies on the same footing
+%          \onslide<2->{
+%          \vspace{1ex}
+%          For the exact Green's function, we have poles that correspond to total energy differences
+%          \begin{equation*}
+%             \varepsilon_i =
+%             \begin{cases}
+%             E(N) - E_i(N-1) & i \in \text{occ} \\
+%             E_i(N+1) - E(N) & i \in \text{emp}
+%             \end{cases}
+%          \end{equation*}
+%          }
 % 
-%    \vspace{1em}
-%    (They share many parallels --- and have subtle differences --- with other methods presented this week)
+%          \onslide<3->{
+%          \vspace{1ex}
+%          For DFT, this condition is \emph{not} satisfied in general
+%          }
+%          %
+%       \end{minipage}
 % 
-%    \vspace{1em}
-%    As a result they give band structures and orbital energies comparable to state-of-the-art GW
-% 
-%    \vspace{1em}
-%    We have released \texttt{koopmans}, a package that contains everything necessary to run calculations using Koopmans functionals without expert knowledge
-% 
-%    % Koopmans functionals are a class of functionals that aim to reproduce spectral properties (charged excitations) and total energies on the same footing by enforcing a generalized piecewise linearity condition.
-% 
-%    % Koopmans functionals give band structures and orbital energies as accurate as state-of-the-art GW, at a fraction of the computational cost
-% 
+%       \begin{minipage}{0.45\textwidth}
+%          \centering
+%          \only<1-2>{
+%             \includegraphics[height=0.7\textheight]{figures/photoemission_costantini.png}
+%          }
+%          \only<3>{
+%             \includegraphics[width=\columnwidth]{figures/curvature_plot/fig_en_curve_gradients_zoom.pdf}
+%          }
+%       \end{minipage}
+%    }
+%    \onslide<1-2>{
+%       \blfootcite{Costantini2020}
+%    }
 % \end{frame}
-
-% \begin{frame}{Failures of DFT}
-%    \begin{itemize}
-%       \item band gap is almost universally too small
-%       \item problems with ``strongly correlated" systems (e.g. TMOs)
-%       \item problems with vdW interactions
-%       \item eigenvalues are formally meaningless
-%       \item self-interaction error
-%       \item static correlation error
-%    \end{itemize}
-%    % \onslide<3->{
-%    % \begin{equation*}
-%    %    V^x_i\psi_{n_i}(\mathbf{r}) = -\frac{1}{2}\sum_{i\neq j} \psi_{n_j}(\mathbf{r'})\int d\mathbf{r}' \frac{\psi^*_{n_j}(\mathbf{r}')\psi_{n_i}(\mathbf{r}')}{|\mathbf{r} - \mathbf{r}'|}
-%    % \end{equation*}
-%    % }
+% 
+% \begin{frame}{Koopmans functionals: theory}
+%    \hbox{
+%       \begin{minipage}{0.5\textwidth}
+%             Core idea: for every orbital $i$ their energy
+%             \begin{equation*}
+%                \varepsilon^\mathsf{Koopmans}_i = \braopket{\varphi_i}{H}{\varphi_i} = \partial E_\mathsf{Koopmans}/\partial f_i
+%             \end{equation*}
+%             ought to be...
+%             \begin{itemize}
+%                \item independent of its own occupation $f_i$
+%                \item equal to the corresponding total energy difference $E_i(N-1) - E(N)$
+%             \end{itemize}
+%          %
+%       \end{minipage}
+% 
+%       \begin{minipage}{0.45\textwidth}
+%          \centering
+%          \only<1>{
+%             \includegraphics[width=\columnwidth]{figures/curvature_plot/fig_en_curve_gradients_zoom.pdf}
+%          }
+%          % \only<2>{
+%          %    \includegraphics[height=0.6\textheight]{figures/fig_gw100_dscf_cf_ks.png}
+%          % }
+%       \end{minipage}
+%    }
 % \end{frame}
-
-% \begin{frame}{Self-interaction error}
-%    \nocite{Dabo2010,Borghi2014,Nguyen2018,Colonna2018,Colonna2019,DeGennaro2022,Colonna2022}
-%    % Koopman's theorem\blfootcite{Koopmans1934a}: changes in energy upon removal of electrons from unrelaxed HF orbitals: $\epsilon_{i\sigma} = - \Delta E_{i\sigma}$
-%    % % at least for unrelaxed Hartree Fock
 % 
-%    \begin{overlayarea}{\textwidth}{0.7\textheight}
-%       \begin{center}
-%          \begin{onlyenv}<1>
-%             \includegraphics[height=0.7\textheight]{figures/curvature_plot/fig_en_curve_with_all.pdf}
-%          \end{onlyenv}
+% \begin{frame}{Koopmans functionals: theory}
 % 
+%    \vspace{-1.5ex}
+%    \begin{overlayarea}{\textwidth}{0.3\paperheight}
+%       \only<1-7>{
+%    \begin{align*}
+%       E_\mathsf{Koopmans}[\rho,\only<8->{\textcolor{red}}{\{f_i\}}, \only<6>{\textcolor{red}}{\{\alpha_i\}}]
+%       = \only<2>{\textcolor{red}}{E_{DFT}[\rho]}
+%       + \sum_i
+%       \only<6>{\textcolor{red}}
+%       {\alpha_i}
+%       \Biggl(
+%       -
+%       \underbrace{
+%          \only<3>{\textcolor{red}}{\int^{f_i}_{0} \varepsilon_i(f) df}
+%       }_{
+%          \substack{\text{removes}  \\ \text{curvature}}
+%       }
+%       +
+%       \underbrace{
+%          \only<4>{\textcolor{red}}{f_i \only<7>{\textcolor{red}}{\eta_i}}
+%       }_{
+%          \substack{\text{restores} \\ \text{linearity}}
+%       }
+%       \Biggr)
+%    \end{align*}
+%       }
+%       \only<8->{
 % 
-%          \begin{onlyenv}<2->
-%             \includegraphics[height=0.7\textheight]{figures/curvature_plot/fig_en_curve_sl_annotated_zoom.pdf}
-%          \end{onlyenv}
-%       \end{center}
+%    \begin{align*}
+%       E_\mathsf{KI}[\rho,\only<9->{\textcolor{red}}{\{\rho_i\}}, \only<6>{\textcolor{red}}{\{\alpha_i\}}]
+%       = \only<2>{\textcolor{red}}{E_{DFT}[\rho]}
+%       + \sum_i
+%       \only<6>{\textcolor{red}}
+%       {\alpha_i}
+%       \biggl(&
+%       E_{\rm Hxc} [\rho-\only<9>{\textcolor{red}}{\rho_i}] -E_{\rm Hxc}[\rho] \nonumber \\
+%       & \qquad + f_i \left( E_{\rm Hxc}[\rho-\only<9>{\textcolor{red}}{\rho_i}+\only<9>{\textcolor{red}}{n_i}] -E_{\rm Hxc}[\rho-\only<9>{\textcolor{red}}{\rho_i}] \right)
+%       \biggr)
+%    \end{align*}
+%       }
+% \end{overlayarea}
+% 
+%    \begin{overlayarea}{\textwidth}{0.5\paperheight}
+%       \centering
+%       \only<1-4>{
+%          \vspace{-1em}
+%       }
+%       \only<1>{
+%          \includegraphics[height=0.5\textheight]{figures/curvature_plot/fig_en_curve_koopmans_step0.pdf}
+%       }
+% 
+%       \only<2>{
+%          \includegraphics[height=0.5\textheight]{figures/curvature_plot/fig_en_curve_koopmans_step1.pdf}
+%       }
+% 
+%       \only<3>{
+%          \includegraphics[height=0.5\textheight]{figures/curvature_plot/fig_en_curve_koopmans_step2.pdf}
+%       }
+% 
+%       \only<4>{
+%          \includegraphics[height=0.5\textheight]{figures/curvature_plot/fig_en_curve_koopmans_step3.pdf}
+%       }
+% 
+%       \only<5->{
+%          \raggedright
+%          Features:
+%          \begin{itemize}
+%             \item<6-> screening (calculated ab initio)
+%             \item<7-> different variants: KI (leaves total energy unchanged), KIPZ (exact for 1-electron systems), pKIPZ
+%             \item<9-> orbital-density dependence
+%          \end{itemize}
+%       }
+%       % \only<8->{
+%       %    \begin{equation*}
+%       %       v^\mathrm{KI}_{\textcolor{red}{i}}/\alpha_i = - E_{\mathrm{H}}\left[\textcolor{red}{n_{i}}\right]
+%       %       + E_{\mathrm{xc}}\left[\rho\right]
+%       %       - E_{\mathrm{xc}}\left[\rho-\textcolor{red}{n_{i}}\right]
+%       %       - \int d\mathbf{r'}
+%       %       v_\mathrm{xc}(\mathbf{r}', [\rho])
+%       %       \textcolor{red}{n_{i}}(\mathbf{r}')
+%       %    \end{equation*}
+%       % }
+%       % \only<6-7>{
+%       %    \begin{equation*}
+%       %       \frac{d E}{d f_i}
+%       %       \approx
+%       %       \alpha_i \frac{\partial E}{\partial f_i}
+%       %       \onslide<7->{
+%       %          \Rightarrow \varepsilon_i^\mathsf{Koopmans} = \frac{\partial E_\mathsf{Koopmans}}{\partial f_i}  \approx E_i(N-1) - E(N)}
+%       %    \end{equation*}
+%       % }
 % 
 %    \end{overlayarea}
-% 
-%    \blfootcite{Cohen2008,Li2017}
-% 
+%    \blfootcite{Dabo2010,Borghi2014,Colonna2019}
 % \end{frame}
-
-\begin{frame}{Koopmans functionals: theory}
-   \hbox{
-      \begin{minipage}{0.5\textwidth}
-         Goal: spectral properties (charged excitations) with a functional theory
-
-         \onslide<2->{
-         \vspace{1ex}
-         For the exact Green's function, we have poles that correspond to total energy differences
-         \begin{equation*}
-            \varepsilon_i =
-            \begin{cases}
-            E(N) - E_i(N-1) & i \in \text{occ} \\
-            E_i(N+1) - E(N) & i \in \text{emp}
-            \end{cases}
-         \end{equation*}
-         }
-
-         \onslide<3->{
-         \vspace{1ex}
-         For DFT, this condition is \emph{not} satisfied in general
-         }
-         %
-      \end{minipage}
-
-      \begin{minipage}{0.45\textwidth}
-         \centering
-         \only<1-2>{
-            \includegraphics[height=0.7\textheight]{figures/photoemission_costantini.png}
-         }
-         \only<3>{
-            \includegraphics[width=\columnwidth]{figures/curvature_plot/fig_en_curve_gradients_zoom.pdf}
-         }
-      \end{minipage}
-   }
-   \onslide<1-2>{
-      \blfootcite{Costantini2020}
-   }
-\end{frame}
-
-\begin{frame}{Koopmans functionals: theory}
-   \hbox{
-      \begin{minipage}{0.5\textwidth}
-            Core idea: for every orbital $i$ their energy
-            \begin{equation*}
-               \varepsilon^\mathsf{Koopmans}_i = \braopket{\varphi_i}{H}{\varphi_i} = \partial E_\mathsf{Koopmans}/\partial f_i
-            \end{equation*}
-            ought to be...
-            \begin{itemize}
-               \item independent of its own occupation $f_i$
-               \item equal to the corresponding total energy difference $E_i(N-1) - E(N)$
-            \end{itemize}
-         %
-      \end{minipage}
-
-      \begin{minipage}{0.45\textwidth}
-         \centering
-         \only<1>{
-            \includegraphics[width=\columnwidth]{figures/curvature_plot/fig_en_curve_gradients_zoom.pdf}
-         }
-         % \only<2>{
-         %    \includegraphics[height=0.6\textheight]{figures/fig_gw100_dscf_cf_ks.png}
-         % }
-      \end{minipage}
-   }
-\end{frame}
-
-\begin{frame}{Koopmans functionals: theory}
-
-   \vspace{-1.5ex}
-   \begin{overlayarea}{\textwidth}{0.3\paperheight}
-      \only<1-7>{
-   \begin{align*}
-      E_\mathsf{Koopmans}[\rho,\only<8->{\textcolor{red}}{\{f_i\}}, \only<6>{\textcolor{red}}{\{\alpha_i\}}]
-      = \only<2>{\textcolor{red}}{E_{DFT}[\rho]}
-      + \sum_i
-      \only<6>{\textcolor{red}}
-      {\alpha_i}
-      \Biggl(
-      -
-      \underbrace{
-         \only<3>{\textcolor{red}}{\int^{f_i}_{0} \varepsilon_i(f) df}
-      }_{
-         \substack{\text{removes}  \\ \text{curvature}}
-      }
-      +
-      \underbrace{
-         \only<4>{\textcolor{red}}{f_i \only<7>{\textcolor{red}}{\eta_i}}
-      }_{
-         \substack{\text{restores} \\ \text{linearity}}
-      }
-      \Biggr)
-   \end{align*}
-      }
-      \only<8->{
-
-   \begin{align*}
-      E_\mathsf{KI}[\rho,\only<9->{\textcolor{red}}{\{\rho_i\}}, \only<6>{\textcolor{red}}{\{\alpha_i\}}]
-      = \only<2>{\textcolor{red}}{E_{DFT}[\rho]}
-      + \sum_i
-      \only<6>{\textcolor{red}}
-      {\alpha_i}
-      \biggl(&
-      E_{\rm Hxc} [\rho-\only<9>{\textcolor{red}}{\rho_i}] -E_{\rm Hxc}[\rho] \nonumber \\
-      & \qquad + f_i \left( E_{\rm Hxc}[\rho-\only<9>{\textcolor{red}}{\rho_i}+\only<9>{\textcolor{red}}{n_i}] -E_{\rm Hxc}[\rho-\only<9>{\textcolor{red}}{\rho_i}] \right)
-      \biggr)
-   \end{align*}
-      }
-\end{overlayarea}
-
-   \begin{overlayarea}{\textwidth}{0.5\paperheight}
-      \centering
-      \only<1-4>{
-         \vspace{-1em}
-      }
-      \only<1>{
-         \includegraphics[height=0.5\textheight]{figures/curvature_plot/fig_en_curve_koopmans_step0.pdf}
-      }
-
-      \only<2>{
-         \includegraphics[height=0.5\textheight]{figures/curvature_plot/fig_en_curve_koopmans_step1.pdf}
-      }
-
-      \only<3>{
-         \includegraphics[height=0.5\textheight]{figures/curvature_plot/fig_en_curve_koopmans_step2.pdf}
-      }
-
-      \only<4>{
-         \includegraphics[height=0.5\textheight]{figures/curvature_plot/fig_en_curve_koopmans_step3.pdf}
-      }
-
-      \only<5->{
-         \raggedright
-         Features:
-         \begin{itemize}
-            \item<6-> screening (calculated ab initio)
-            \item<7-> different variants: KI (leaves total energy unchanged), KIPZ (exact for 1-electron systems), pKIPZ
-            \item<9-> orbital-density dependence
-         \end{itemize}
-      }
-      % \only<8->{
-      %    \begin{equation*}
-      %       v^\mathrm{KI}_{\textcolor{red}{i}}/\alpha_i = - E_{\mathrm{H}}\left[\textcolor{red}{n_{i}}\right]
-      %       + E_{\mathrm{xc}}\left[\rho\right]
-      %       - E_{\mathrm{xc}}\left[\rho-\textcolor{red}{n_{i}}\right]
-      %       - \int d\mathbf{r'}
-      %       v_\mathrm{xc}(\mathbf{r}', [\rho])
-      %       \textcolor{red}{n_{i}}(\mathbf{r}')
-      %    \end{equation*}
-      % }
-      % \only<6-7>{
-      %    \begin{equation*}
-      %       \frac{d E}{d f_i}
-      %       \approx
-      %       \alpha_i \frac{\partial E}{\partial f_i}
-      %       \onslide<7->{
-      %          \Rightarrow \varepsilon_i^\mathsf{Koopmans} = \frac{\partial E_\mathsf{Koopmans}}{\partial f_i}  \approx E_i(N-1) - E(N)}
-      %    \end{equation*}
-      % }
-
-   \end{overlayarea}
-   \blfootcite{Dabo2010,Borghi2014,Colonna2019}
-\end{frame}
-
-
-\begin{frame}{Koopmans functionals: theory}
-   Consequences of ODD:
-   \begin{itemize}[<+(1)->]
-      \item a natural generalisation in the direction of spectral functional theory\footcite{Ferretti2014}
-      \item variational (localised, minimising) vs canonical (delocalised, diagonalising) orbitals
-            \begin{figure}[t]
-               \centering
-               \begin{subfigure}{0.3\textwidth}
-                  \includegraphics[height=\columnwidth,angle=90]{figures/fig_nguyen_variational_orbital.png}
-                  \caption{variational}
-               \end{subfigure}
-               \hspace{0.1\textwidth}
-               \begin{subfigure}{0.3\textwidth}
-                  \includegraphics[height=\columnwidth,angle=90]{figures/fig_nguyen_canonical_orbital.png}
-                  \caption{canonical}
-               \end{subfigure}
-            \end{figure}
-      \item Practically we can often use MLWFs
-      \item localised variational orbitals naturally allow us to treat bulk systems
-      % \item ODD functional means that we know $\hat H \ket{\varphi_i}$ for variational orbitals $\{\ket{\varphi_i}\}$ but we don't know $\hat H$ in general
-   \end{itemize}
-   \blfootcite{Nguyen2018}
-\end{frame}
-
-\begin{frame}{Koopmans functionals: theory}
-
-   \begin{center}
-      \includegraphics[width=0.8\textwidth]{figures/fig_nguyen_scaling.png}
-   \end{center}
-   \blfootcite{Nguyen2018}
-
-
-\end{frame}
-
-% \begin{frame}{Koopmans functionals: comparing}
-%    \small
-%    \renewcommand{\arraystretch}{1.5}
-%    \rowcolors{1}{seaborn_bg_grey}{seaborn_bg_grey_half}
-%    \begin{tabularx}{\columnwidth}{L L L}
-%                                                 & \textbf{DFT+\emph{U}}                                                       & \textbf{Koopmans}                                                                                                                                                   \\
-%       \hline
-%       designed to correct SIE, as defined by... & erroneous global curvature in total energies                                & dependence of $\varepsilon_i$ on $f_i \ \forall i$ \leavevmode\onslide<4->{\textcolor{red}{(canonical orbitals)}}                                                   \\
-%       by construction...                        & corrects local curvature in total energies                                  & removes dependence of $\varepsilon_i$ on $f_i$ and guarantees $\varepsilon_i = E_i(N\pm 1) - E(N)$ \leavevmode\onslide<4->{\textcolor{red}{(variational orbitals)}} \\
-%       correction applied to...                  & selected subspaces only (e.g. \emph{3d} orbitals)                           & the entire system                                                                                                                                                   \\
-%       orbitals defined by...                    & Hubbard projectors (atom-centred, frozen, incomplete)                       & \leavevmode\onslide<2->{variational (minimising) orbitals}                                                                                                          \\
-%       corrective parameters are...              & $\{U^I\}$, defined with respect to charge-neutral excitations (if using LR) & \leavevmode\onslide<3->{$\{\alpha_i\}$, defined with respect to charged excitations}                                                                                \\
-%    \end{tabularx}
-% \end{frame}
-
-\begin{frame}{Koopmans functionals: theory}
-   Resonance with other efforts:
-   \begin{itemize}
-      \item Wannier transition-state method of Anisimov and Kozhevnikov \cite{Anisimov2005}
-      \item Optimally tuned hybrid functionals of Kronik, Pasquarello, and others \cite{Kronik2012,Wing2021}
-      \item Ensemble DFT of Kronik and co-workers \cite{Kraisler2013}
-      \item Koopmans-Wannier of Wang and co-workers \cite{Ma2016}
-      \item Dielectric-dependent hybrid functionals of Galli and co-workers \cite{Skone2016a}
-      \item LOSC functionals of Yang and co-workers \cite{Li2018}
-   \end{itemize}
-\end{frame}
-
-\begin{frame}{Koopmans functionals: results for molecules}
-   \small
-   Ionisation potentials $ = E(N-1) - E(N) \stackrel{?}{=} -\varepsilon_{HO}$ of 100 molecules (the GW100 set) cf. CCSD(T)
-   \begin{center}
-      \includegraphics[height=0.2\textwidth]{figures/colonna_2019_gw100_ip}
-      % \onslide<2->{\includegraphics[height=0.23\textwidth]{figures/colonna_2019_gw100_deeper}}
-   \end{center}
-
-   \vspace{-3ex}
-   Ultraviolet photoemission spectra
-   \begin{center}
-      \begin{tikzpicture}
-         \node [inner sep=0pt](fig) at (0,0) {\includegraphics[height=0.35\textheight]{figures/fig_nguyen_prl_spectra.png}};
-         \draw [very thick, color=seaborn_red] (-5.35,-0.07) rectangle (5.4,1.6);
-      \end{tikzpicture}
-   \end{center}
-   \vspace{-2ex}
-
-   \blfootcite{Colonna2018,Nguyen2015}
-\end{frame}
-
-% \begin{frame}{Koopmans functionals: results for molecules}
-%    Electron affinities $ = E(N) - E(N+1) \stackrel{?}{=} -\varepsilon_{LU}$ of molecules cf. CCSD(T)/exp
-%    \vspace{2ex}
 % 
-%    \small
+% 
+% \begin{frame}{Koopmans functionals: theory}
+%    Consequences of ODD:
+%    \begin{itemize}[<+(1)->]
+%       \item a natural generalisation in the direction of spectral functional theory\footcite{Ferretti2014}
+%       \item variational (localised, minimising) vs canonical (delocalised, diagonalising) orbitals
+%             \begin{figure}[t]
+%                \centering
+%                \begin{subfigure}{0.3\textwidth}
+%                   \includegraphics[height=\columnwidth,angle=90]{figures/fig_nguyen_variational_orbital.png}
+%                   \caption{variational}
+%                \end{subfigure}
+%                \hspace{0.1\textwidth}
+%                \begin{subfigure}{0.3\textwidth}
+%                   \includegraphics[height=\columnwidth,angle=90]{figures/fig_nguyen_canonical_orbital.png}
+%                   \caption{canonical}
+%                \end{subfigure}
+%             \end{figure}
+%       \item Practically we can often use MLWFs
+%       \item localised variational orbitals naturally allow us to treat bulk systems
+%       % \item ODD functional means that we know $\hat H \ket{\varphi_i}$ for variational orbitals $\{\ket{\varphi_i}\}$ but we don't know $\hat H$ in general
+%    \end{itemize}
+%    \blfootcite{Nguyen2018}
+% \end{frame}
+% 
+% \begin{frame}{Koopmans functionals: theory}
+% 
 %    \begin{center}
-%       For 15 of the GW100 molecules with bound LUMOs
-% 
-%       \includegraphics[height=0.5\textheight]{figures/fig_gw100_ea_mae_mse.pdf}
-% 
-%       \textcolor{seaborn_bg_grey_darker}{\footnotesize Linscott et al. (in prep)}
+%       \includegraphics[width=0.8\textwidth]{figures/fig_nguyen_scaling.png}
 %    \end{center}
+%    \blfootcite{Nguyen2018}
+% 
 % \end{frame}
 
-\begin{frame}{Koopmans functionals: results for solids}
+\begin{frame}{\normalsize Koopmans functionals give accurate band structures}
    \begin{minipage}[c]{0.35\textwidth}
       \includegraphics[width=\textwidth]{figures/fig_nguyen_prx_bandgaps.png}
    \end{minipage}
@@ -709,7 +586,7 @@
    \blfootcite{Nguyen2018}
 \end{frame}
 
-\begin{frame}{Koopmans functionals: results for solids}
+\begin{frame}{\normalsize Koopmans functionals give accurate band structures}
    
 \begin{table}[t]
    \centering
@@ -755,7 +632,7 @@
 \end{table}
 \end{frame}
 
-\begin{frame}{Koopmans functionals: results for solids}
+\begin{frame}{\normalsize Koopmans functionals give accurate band structures}
    \begin{figure}[t]
       \centering
       \begin{subfigure}{0.3\textwidth}
@@ -791,124 +668,88 @@
    \blfootcite{Colonna2022}
 \end{frame}
 
+% \begin{frame}{Koopmans functionals: results for molecules}
+%    \small
+%    Ionisation potentials $ = E(N-1) - E(N) \stackrel{?}{=} -\varepsilon_{HO}$ of 100 molecules (the GW100 set) cf. CCSD(T)
+%    \begin{center}
+%       \includegraphics[height=0.2\textwidth]{figures/colonna_2019_gw100_ip}
+%       % \onslide<2->{\includegraphics[height=0.23\textwidth]{figures/colonna_2019_gw100_deeper}}
+%    \end{center}
+% 
+%    \vspace{-3ex}
+%    Ultraviolet photoemission spectra
+%    \begin{center}
+%       \begin{tikzpicture}
+%          \node [inner sep=0pt](fig) at (0,0) {\includegraphics[height=0.35\textheight]{figures/fig_nguyen_prl_spectra.png}};
+%          \draw [very thick, color=seaborn_red] (-5.35,-0.07) rectangle (5.4,1.6);
+%       \end{tikzpicture}
+%    \end{center}
+%    \vspace{-2ex}
+% 
+%    \blfootcite{Colonna2018,Nguyen2015}
+% \end{frame}
 
-\begin{frame}{Koopmans functionals: results for toy systems}
-   For Hooke's atom (two electrons in a harmonic confining potential with Coulombic repulsion)
+% \begin{frame}{Koopmans functionals: results for molecules}
+%    Electron affinities $ = E(N) - E(N+1) \stackrel{?}{=} -\varepsilon_{LU}$ of molecules cf. CCSD(T)/exp
+%    \vspace{2ex}
+% 
+%    \small
+%    \begin{center}
+%       For 15 of the GW100 molecules with bound LUMOs
+% 
+%       \includegraphics[height=0.5\textheight]{figures/fig_gw100_ea_mae_mse.pdf}
+% 
+%       \textcolor{seaborn_bg_grey_darker}{\footnotesize Linscott et al. (in prep)}
+%    \end{center}
+% \end{frame}
 
-   \begin{figure}[t]
-      \begin{subfigure}{0.4\textwidth}
-         \includegraphics[width=\columnwidth]{figures/schubert_vxc.jpeg}
-      \end{subfigure}
-      \begin{subfigure}{0.4\textwidth}
-         \onslide<2->{
-         \includegraphics[width=\columnwidth]{figures/schubert_vxc_integrated.jpeg}
-         }
-      \end{subfigure}
-   \end{figure}
+% \begin{frame}{Koopmans functionals: results for toy systems}
+%    For Hooke's atom (two electrons in a harmonic confining potential with Coulombic repulsion)
+% 
+%    \begin{figure}[t]
+%       \begin{subfigure}{0.4\textwidth}
+%          \includegraphics[width=\columnwidth]{figures/schubert_vxc.jpeg}
+%       \end{subfigure}
+%       \begin{subfigure}{0.4\textwidth}
+%          \onslide<2->{
+%          \includegraphics[width=\columnwidth]{figures/schubert_vxc_integrated.jpeg}
+%          }
+%       \end{subfigure}
+%    \end{figure}
+% 
+%    \blfootcite{Schubert2023}
+% \end{frame}
 
-   \blfootcite{Schubert2023}
-\end{frame}
-
-\begin{frame}{Koopmans functionals: caveats}
-
-   \begin{itemize}[<+(1)->]
-      \item will \emph{not} solve H$_2^+$!
-      \item restricted to systems with a non-zero band gap
-      \item empty state localization in the bulk limit
-      \item can potentially break the crystal point group symmetry\blfootcite{Su2020}
+\begin{frame}{Features of Koopmans functionals}
+   \begin{align*}
+      E_\mathsf{Koopmans}[\rho,{\{f_i\}}, {\{\alpha_i\}}]
+      = {E_{DFT}[\rho]}
+      + \sum_i
+      {\alpha_i}
+      \Biggl(
+      -
+         {\int^{f_i}_{0} \varepsilon_i(f) df}
+      +
+         {f_i {\eta_i}}
+      \Biggr)
+   \end{align*}
+   General features:
+   \begin{itemize}
+      \item enforces a generalized piecewise linearity condition
+      \item depends on localization
+      \item is orbital-density-dependent
+      \item requires the ab initio calculation of screening parameters
    \end{itemize}
-\end{frame}
-
-
-\begin{frame}{Accelerating improvements}
-   The general workflow:
+   
+   In order to evaluate this functional, one must...
    \begin{itemize}
       \item define/initialize a set of variational orbitals
       \item calculate the screening parameters $\{\alpha_i\}$
       \item construct and diagonalize the Hamiltonian
    \end{itemize}
-
-   Recent advances make some of these steps a lot easier...
 \end{frame}
 
-\begin{frame}{Accelerating improvements: easier Wannierization}
-
-   \begin{figure}[t]
-      \begin{subfigure}{0.225\textwidth}
-         \includegraphics[height=1.5\columnwidth]{figures/proj_disentanglement_fig1b.png}
-         \vspace{-0.01\paperheight}
-      \end{subfigure}
-      \begin{subfigure}{0.225\textwidth}
-         \onslide<2->{
-         \includegraphics[height=1.5\columnwidth]{figures/proj_disentanglement_fig1a.png}
-         }
-      \end{subfigure}
-      \hspace{0.025\textwidth}
-      % \begin{subfigure}{0.225\textwidth}
-      %    \onslide<3->{
-      %    \includegraphics[height=1.5\columnwidth]{figures/proj_disentanglement_fig1d.png}
-      %    }
-      % \end{subfigure}
-      \begin{subfigure}{0.225\textwidth}
-         \onslide<4->{
-         \includegraphics[height=1.5\columnwidth]{figures/proj_disentanglement_fig1f.png}
-         }
-      \end{subfigure}
-   \end{figure}
-
-   \onslide<5->{Demonstrated on $>$20,000 materials $\rightarrow$ black-box Wannierization!}
-
-   \blfootcite{Qiao2023}
-
-\end{frame}
-
-\begin{frame}{Accelerating improvements: screening via DFPT}
-   Original formulation requires explicit charged defect calculations in a supercell
-
-   \begin{equation*}
-   \alpha^{n+1}_i =
-   \alpha^n_i \frac{\Delta E^\text{Koopmans}_i - \lambda_{ii}(0, 1)}{\lambda_{ii}(\alpha^n_i, 1) - \lambda_{ii}(0, 1)}; \qquad  \Delta E^\text{Koopmans}_i = E^\text{Koopmans}(N) - E^\text{Koopmans}_i(N - 1)
-   \end{equation*}
-
-   \onslide<2->{
-   Now reformulated in terms of DFPT\footcite{Colonna2019}...
-
-   \begin{equation*}
-   \alpha_{i} = 1 + \frac{\langle v^{i}_{\rm pert} \vert \Delta^{i} n \rangle}{\langle n_{i} \vert v^{i}_{\rm pert} \rangle}.
-   \end{equation*}
-   }
-   
-   \onslide<3->{
-   ... in reciprocal space\footcite{Colonna2022}
-   \begin{equation*}
-      \alpha_{\mathbf{0}i} =  1 + \frac{\sum_{\mathbf{q}} \langle v^{\mathbf{0}i}_{\rm pert,\mathbf{q}} \vert \Delta^{\mathbf{0}i}_{\mathbf{q}}n \rangle} {\sum_{\mathbf{q}} \langle n^{\mathbf{0}i}_{\mathbf{q}} \vert v^{\mathbf{0}i}_{\rm pert,\mathbf{q}} \rangle}.
-   \end{equation*}
-   }
-
-\end{frame}
-
-\begin{frame}{Accelerating improvements: screening via ML}
-   \begin{center}
-
-      \includegraphics[height=0.7\paperheight]{figures/CsSnI3_calc_vs_pred_Edward.png}
-      \includegraphics[height=0.7\paperheight]{figures/convergence_analysis_Edward.png}
-
-      loss of accuracy of the band gap of $\sim$ 0.02 eV
-
-      (cf. when calculating screening parameters \emph{ab initio})
-
-      speedup of 70$\times$
-   \end{center}
-
-   \blfootcite{Schubert2022}
-
-\end{frame}
-
-\begin{frame}{Accelerating improvements: automated workflows}
-   \small We have complicated workflows, with either...
-
-   \vspace{1ex}
-
+\begin{frame}{Workflows}
    \onslide<2->{
       (a) finite difference calculations using a supercell
 
@@ -943,7 +784,7 @@
 \end{frame}
 
 
-\begin{frame}{Accelerating improvements: automated workflows}
+\begin{frame}{Workflows}
 
    % \texttt{kcw.x} (DFPT implementation) is distributed in Quantum ESPRESSO v7.1 onwards
 
@@ -996,6 +837,101 @@
    \footnotetext[2]{\cite{Larsen2017}}
 \end{frame}
 
+\begin{frame}{Workflows}
+   \includegraphics[width=\textwidth]{figures/jctc.png}
+   
+\end{frame}
+
+\begin{frame}{Automating Wannierization}
+
+   One remaining manual step: Wannierization. Can we automate this?
+
+   \begin{figure}[t]
+      \begin{subfigure}{0.225\textwidth}
+         \onslide<2->{
+         \includegraphics[height=1.5\columnwidth]{figures/proj_disentanglement_fig1b.png}
+         \vspace{-0.01\paperheight}
+         }
+      \end{subfigure}
+      \begin{subfigure}{0.225\textwidth}
+         \onslide<3->{
+         \includegraphics[height=1.5\columnwidth]{figures/proj_disentanglement_fig1a.png}
+         }
+      \end{subfigure}
+      \hspace{0.025\textwidth}
+      % \begin{subfigure}{0.225\textwidth}
+      %    \onslide<3->{
+      %    \includegraphics[height=1.5\columnwidth]{figures/proj_disentanglement_fig1d.png}
+      %    }
+      % \end{subfigure}
+      \begin{subfigure}{0.225\textwidth}
+         \onslide<4->{
+         \includegraphics[height=1.5\columnwidth]{figures/proj_disentanglement_fig1f.png}
+         }
+      \end{subfigure}
+   \end{figure}
+
+   \onslide<5->{Demonstrated on $>$20,000 materials $\rightarrow$ black-box Wannierization}
+
+   \blfootcite{Qiao2023}
+
+\end{frame}
+
+\begin{frame}{Automating Wannierization}
+   We separate target manifolds via parallel transport to obtain separate occupied and empty manifolds
+
+      \begin{figure}
+         \includegraphics[width=0.4\columnwidth]{figures/target_manifolds_fig1b.png}
+      \end{figure}
+
+   \onslide<2->{All of the above is supported by \texttt{koopmans}, but more details to be resolved... watch this space!}
+
+   \blfootcite{Qiao2023a}
+
+\end{frame}
+
+% \begin{frame}{Accelerating improvements: screening via DFPT}
+%    Original formulation requires explicit charged defect calculations in a supercell
+% 
+%    \begin{equation*}
+%    \alpha^{n+1}_i =
+%    \alpha^n_i \frac{\Delta E^\text{Koopmans}_i - \lambda_{ii}(0, 1)}{\lambda_{ii}(\alpha^n_i, 1) - \lambda_{ii}(0, 1)}; \qquad  \Delta E^\text{Koopmans}_i = E^\text{Koopmans}(N) - E^\text{Koopmans}_i(N - 1)
+%    \end{equation*}
+% 
+%    \onslide<2->{
+%    Now reformulated in terms of DFPT\footcite{Colonna2019}...
+% 
+%    \begin{equation*}
+%    \alpha_{i} = 1 + \frac{\langle v^{i}_{\rm pert} \vert \Delta^{i} n \rangle}{\langle n_{i} \vert v^{i}_{\rm pert} \rangle}.
+%    \end{equation*}
+%    }
+%    
+%    \onslide<3->{
+%    ... in reciprocal space\footcite{Colonna2022}
+%    \begin{equation*}
+%       \alpha_{\mathbf{0}i} =  1 + \frac{\sum_{\mathbf{q}} \langle v^{\mathbf{0}i}_{\rm pert,\mathbf{q}} \vert \Delta^{\mathbf{0}i}_{\mathbf{q}}n \rangle} {\sum_{\mathbf{q}} \langle n^{\mathbf{0}i}_{\mathbf{q}} \vert v^{\mathbf{0}i}_{\rm pert,\mathbf{q}} \rangle}.
+%    \end{equation*}
+%    }
+% 
+% \end{frame}
+% 
+% \begin{frame}{Accelerating improvements: screening via ML}
+%    \begin{center}
+% 
+%       \includegraphics[height=0.7\paperheight]{figures/CsSnI3_calc_vs_pred_Edward.png}
+%       \includegraphics[height=0.7\paperheight]{figures/convergence_analysis_Edward.png}
+% 
+%       loss of accuracy of the band gap of $\sim$ 0.02 eV
+% 
+%       (cf. when calculating screening parameters \emph{ab initio})
+% 
+%       speedup of 70$\times$
+%    \end{center}
+% 
+%    \blfootcite{Schubert2022}
+% 
+% \end{frame}
+
 % \begin{frame}{Neutral excitations with Koopmans}
 %    \centering
 %    \includegraphics[width=0.5\textwidth]{figures/elliott_workflow.jpeg}
@@ -1040,16 +976,11 @@
    \adjustbox{height=0.2\paperheight}{\input{supercell_workflow.tex}\end{tikzpicture}}
 
    \begin{itemize}
-      \item Koopmans functionals are a class of functionals that treat spectral properties on the same footing as total energy differences (via GPWL)
-      \item they can give orbital energies and band structures with comparable accuracy to state-of-the-art GW
-      \item the release of \texttt{koopmans} means you don't need expert knowledge to run Koopmans functional calculations
+      \item Koopmans functionals can give orbital energies and band structures with comparable accuracy to state-of-the-art GW
+      \item the release of \texttt{koopmans} means non-experts can now use Koopmans functionals in their own research
+      \item work is ongoing to automate the Wannierization bottleneck
    \end{itemize}
 
-\end{frame}
-
-\begin{frame}{Take home messages}
-   \includegraphics[width=\textwidth]{figures/jctc.png}
-   
 \end{frame}
 
 \begin{frame}{Acknowledgements}
@@ -1081,9 +1012,6 @@
       Want to find out more? Go to \url{koopmans-functionals.org}
       \vspace{1em}
 
-      Next week in Pavia, Italy \emph{Advanced Quantum ESPRESSO school: Hubbard and Koopmans functionals from linear response}. Recordings can be found on the Materials Cloud youtube page
-      \vspace{1em}
-
       Follow \includegraphics[height=\fontcharht\font`\B]{figures/Twitter_Bird.png} \textcolor{twitter_blue}{@ed\_linscott} for updates | Slides available at \includegraphics[height=\fontcharht\font`\B]{logos/github-favicon.png} github/elinscott
    \end{center}
 
@@ -1104,162 +1032,160 @@
    \scriptsize
 \end{frame}
 
-\backupbegin
-\begin{frame}{}
-
-   \begin{center}
-      \huge SPARE SLIDES
-   \end{center}
-
-\end{frame}
-
-\begin{frame}{Koopmans functionals: off-diagonal occupancies}
-   \begin{block}{Recap from earlier}
-      Key idea: construct a functional such that the \emph{variational} orbital energies
-      \begin{equation*}
-         \varepsilon^\mathsf{Koopmans}_i = \braopket{\varphi_i}{H}{\varphi_i} = \partial E_\mathsf{Koopmans}/\partial f_i
-      \end{equation*}
-      are...
-      \begin{itemize}
-         \item independent of the corresponding occupancies $f_i$
-         \item equal to the corresponding total energy difference $E_i(N-1) - E(N)$
-      \end{itemize}
-   \end{block}
-
-   zero band gap $\rightarrow$ occupancy matrix for variational orbitals is off-diagonal
-\end{frame}
-
-
-% \begin{frame}{References}
-%    \setbeamercolor*{bibliography entry title}{fg=black}
-%    \setbeamercolor*{bibliography entry author}{fg=black}
-%    \setbeamercolor*{bibliography entry location}{fg=black}
-%    \setbeamercolor*{bibliography entry note}{fg=black}
-%    \printbibliography
-%    % For further reading on Koopmans functionals, see \cite{Dabo2010,Borghi2014,Nguyen2018,Colonna2018,Colonna2019,DeGennaro2022,Colonna2022}
+% \backupbegin
+% \begin{frame}{}
+% 
+%    \begin{center}
+%       \huge SPARE SLIDES
+%    \end{center}
 % 
 % \end{frame}
-
-\begin{frame}{Koopmans functionals: results for solids}
-   \vspace{-0.5em}
-   \begin{figure}[t]
-      \centering
-      \begin{subfigure}{0.45\textwidth}
-         \includegraphics[width=\columnwidth]{figures/Si_kipz_bands.png}
-         \caption{Si, KIPZ}
-      \end{subfigure}
-      \begin{subfigure}{0.45\textwidth}
-         \includegraphics[width=\columnwidth]{figures/GaAs_ki_bands.png}
-         \caption{GaAs, KI}
-      \end{subfigure}
-      % \begin{subfigure}{\textwidth}
-      %    \begin{tabularx}{\columnwidth}{C C C C C C C}
-      %       ZnO                                  & LDA  & HSE  & GW$_0$ & scG$\tilde{\rm W}$ & KI   & exp.      \\
-      %       \hline
-      %       $E_\mathrm{gap}$ (eV)                & 0.79 & 2.79 & 3.0    & 3.2                & 3.62 & 3.60      \\
-      %       $\langle \varepsilon_d \rangle$ (eV) & -5.1 & -6.1 & -6.4   & -6.7               & -6.9 & -7.5/-8.0 \\
-      %    \end{tabularx}
-      % \end{subfigure}
-   \end{figure}
-   \begin{center}
-      \footnotesize
-      \begin{tabular}{l l S[table-format = 2.2] S[table-format = 2.2] >{\color{seaborn_red}\bfseries}S[table-format = 2.2] >{\color{seaborn_red}\bfseries}S[table-format = 2.2] >{\color{seaborn_red}\bfseries}S[table-format = 2.2] S[table-format = 2.2]}
-                               &                                  & {PBE} & {QSG$\tilde{\mathsf{W}}$} & {KI} & {pKIPZ} & {\bf KIPZ} & {exp} \\
-         \midrule
-         \midrule
-         {Si}                  & $E_\mathrm{gap}$                 & 0.55  & 1.24                      & 1.18 & 1.17    & 1.19       & 1.17  \\
-         \midrule
-         \multirow{2}{*}{GaAs} & $E_\mathrm{gap}$                 & 0.50  & 1.61                      & 1.53 & 1.49    & 1.50       & 1.52  \\
-                               & $\langle \varepsilon_d \rangle $ & 14.9  & 17.6                      & 16.9 &         & 17.7       & 18.9
-      \end{tabular}
-   \end{center}
-   \blfootcite{DeGennaro2022}
-\end{frame}
-
-\begin{frame}{Accelerating improvements: easier Wannierization}
-   Separation of target manifolds via parallel transport to obtain separate occupied and empty manifolds
-
-      \begin{figure}
-         \onslide<2->{
-         \includegraphics[width=0.5\columnwidth]{figures/target_manifolds_fig1b.png}
-         }
-      \end{figure}
-
-   \blfootcite{Qiao2023a}
-\end{frame}
-
-
-\begin{frame}{Accelerating improvements: screening via ML}
-   \begin{center}
-      \begin{tikzpicture}
-         \node[inner sep=0pt] (water box) at (0,0)
-         {
-            \includegraphics[width=0.25\textwidth]{figures/orbital.emp.00191_cropped.png}
-         };
-         \node[below=0cm of water box] (density) {$\rho_i(\mathbf{r})$};
-         \node[right=0.2\textwidth of water box] (power spectrum) {
-            $
-               \begin{bmatrix}
-                  x_{0} \\
-                  x_{1} \\
-                  x_{2} \\
-                  \vdots
-               \end{bmatrix}
-            $
-         };
-         \path[line] (water box) -- node [midway, above, align=center] (decomposition) {power spectrum \\ decomposition} (power spectrum);
-         \node[right=0.2\textwidth of power spectrum] (screening parameter) {$\alpha_i$};
-         \path[line] (power spectrum) -- node [midway, above, align=center] (model) {ML model} (screening parameter);
-      \end{tikzpicture}
-   \end{center}
-
-   \vspace{-4em}
-
-   \blfootcite{Schubert2022}
-
-   \begin{align*}
-      c^i_{nlm,k} & =\int d\textbf{r} g_{nl}(r)Y_{lm}(\theta,\varphi)\rho^i(\textbf{r}-\textbf{R}^i)                        \\
-      p^i_{n_1n_2l,k_1k_2}         & =\pi \sqrt{\frac{8}{2l+1}}\sum\limits_m {c_{n_1lm,k_1}^{i *}}c_{n_2lm,k_2}^i \label{eq: power spectrum}
-   \end{align*}
-
-   % $g_{nl}$ = orthonormalised radial Gaussian basis functions
-
-   % $Y_{lm}$ = spherical harmonics
-
-\end{frame}
-
-\begin{frame}{koopmans: the input file}
-   \begin{minipage}[t]{0.475\columnwidth}
-      \inputminted[fontsize=\tiny,breaklines,lastline=20]{json}{scripts/si.json}
-   \end{minipage}
-   \hspace{0.025\textwidth}
-   \begin{minipage}[t]{0.475\columnwidth}
-      \inputminted[fontsize=\tiny,breaklines,firstline=21]{json}{scripts/si.json}
-   \end{minipage}
-\end{frame}
-
-% \begin{frame}{koopmans: the output file}
-%    \vspace{-2ex}
-%    \only<1>{
-%       \inputminted[fontsize=\scriptsize,breaklines]{text}{scripts/si_ki_full.out}
-%    }
-%    \only<2>{
-%       \inputminted[fontsize=\scriptsize,breaklines,firstline=25]{text}{scripts/si_ki_full.out}
-%    }
-%    \only<3>{
-%       \inputminted[fontsize=\scriptsize,breaklines,firstline=50]{text}{scripts/si_ki_full.out}
-%    }
-%    \only<4>{
-%       \inputminted[fontsize=\scriptsize,breaklines,firstline=75]{text}{scripts/si_ki_full.out}
-%    }
+% 
+% \begin{frame}{Koopmans functionals: off-diagonal occupancies}
+%    \begin{block}{Recap from earlier}
+%       Key idea: construct a functional such that the \emph{variational} orbital energies
+%       \begin{equation*}
+%          \varepsilon^\mathsf{Koopmans}_i = \braopket{\varphi_i}{H}{\varphi_i} = \partial E_\mathsf{Koopmans}/\partial f_i
+%       \end{equation*}
+%       are...
+%       \begin{itemize}
+%          \item independent of the corresponding occupancies $f_i$
+%          \item equal to the corresponding total energy difference $E_i(N-1) - E(N)$
+%       \end{itemize}
+%    \end{block}
+% 
+%    zero band gap $\rightarrow$ occupancy matrix for variational orbitals is off-diagonal
 % \end{frame}
-
-\begin{frame}{koopmans is scriptable}
-   \vspace{-2ex}
-   \inputminted[fontsize=\scriptsize,breaklines]{python}{scripts/si.py}
-\end{frame}
-
-
-
-\backupend
+% 
+% 
+% % \begin{frame}{References}
+% %    \setbeamercolor*{bibliography entry title}{fg=black}
+% %    \setbeamercolor*{bibliography entry author}{fg=black}
+% %    \setbeamercolor*{bibliography entry location}{fg=black}
+% %    \setbeamercolor*{bibliography entry note}{fg=black}
+% %    \printbibliography
+% %    % For further reading on Koopmans functionals, see \cite{Dabo2010,Borghi2014,Nguyen2018,Colonna2018,Colonna2019,DeGennaro2022,Colonna2022}
+% % 
+% % \end{frame}
+% 
+% \begin{frame}{Koopmans functionals: results for solids}
+%    \vspace{-0.5em}
+%    \begin{figure}[t]
+%       \centering
+%       \begin{subfigure}{0.45\textwidth}
+%          \includegraphics[width=\columnwidth]{figures/Si_kipz_bands.png}
+%          \caption{Si, KIPZ}
+%       \end{subfigure}
+%       \begin{subfigure}{0.45\textwidth}
+%          \includegraphics[width=\columnwidth]{figures/GaAs_ki_bands.png}
+%          \caption{GaAs, KI}
+%       \end{subfigure}
+%       % \begin{subfigure}{\textwidth}
+%       %    \begin{tabularx}{\columnwidth}{C C C C C C C}
+%       %       ZnO                                  & LDA  & HSE  & GW$_0$ & scG$\tilde{\rm W}$ & KI   & exp.      \\
+%       %       \hline
+%       %       $E_\mathrm{gap}$ (eV)                & 0.79 & 2.79 & 3.0    & 3.2                & 3.62 & 3.60      \\
+%       %       $\langle \varepsilon_d \rangle$ (eV) & -5.1 & -6.1 & -6.4   & -6.7               & -6.9 & -7.5/-8.0 \\
+%       %    \end{tabularx}
+%       % \end{subfigure}
+%    \end{figure}
+%    \begin{center}
+%       \footnotesize
+%       \begin{tabular}{l l S[table-format = 2.2] S[table-format = 2.2] >{\color{seaborn_red}\bfseries}S[table-format = 2.2] >{\color{seaborn_red}\bfseries}S[table-format = 2.2] >{\color{seaborn_red}\bfseries}S[table-format = 2.2] S[table-format = 2.2]}
+%                                &                                  & {PBE} & {QSG$\tilde{\mathsf{W}}$} & {KI} & {pKIPZ} & {\bf KIPZ} & {exp} \\
+%          \midrule
+%          \midrule
+%          {Si}                  & $E_\mathrm{gap}$                 & 0.55  & 1.24                      & 1.18 & 1.17    & 1.19       & 1.17  \\
+%          \midrule
+%          \multirow{2}{*}{GaAs} & $E_\mathrm{gap}$                 & 0.50  & 1.61                      & 1.53 & 1.49    & 1.50       & 1.52  \\
+%                                & $\langle \varepsilon_d \rangle $ & 14.9  & 17.6                      & 16.9 &         & 17.7       & 18.9
+%       \end{tabular}
+%    \end{center}
+%    \blfootcite{DeGennaro2022}
+% \end{frame}
+% 
+% \begin{frame}{Accelerating improvements: easier Wannierization}
+%    Separation of target manifolds via parallel transport to obtain separate occupied and empty manifolds
+% 
+%       \begin{figure}
+%          \onslide<2->{
+%          \includegraphics[width=0.5\columnwidth]{figures/target_manifolds_fig1b.png}
+%          }
+%       \end{figure}
+% 
+%    \blfootcite{Qiao2023a}
+% \end{frame}
+% 
+% 
+% \begin{frame}{Accelerating improvements: screening via ML}
+%    \begin{center}
+%       \begin{tikzpicture}
+%          \node[inner sep=0pt] (water box) at (0,0)
+%          {
+%             \includegraphics[width=0.25\textwidth]{figures/orbital.emp.00191_cropped.png}
+%          };
+%          \node[below=0cm of water box] (density) {$\rho_i(\mathbf{r})$};
+%          \node[right=0.2\textwidth of water box] (power spectrum) {
+%             $
+%                \begin{bmatrix}
+%                   x_{0} \\
+%                   x_{1} \\
+%                   x_{2} \\
+%                   \vdots
+%                \end{bmatrix}
+%             $
+%          };
+%          \path[line] (water box) -- node [midway, above, align=center] (decomposition) {power spectrum \\ decomposition} (power spectrum);
+%          \node[right=0.2\textwidth of power spectrum] (screening parameter) {$\alpha_i$};
+%          \path[line] (power spectrum) -- node [midway, above, align=center] (model) {ML model} (screening parameter);
+%       \end{tikzpicture}
+%    \end{center}
+% 
+%    \vspace{-4em}
+% 
+%    \blfootcite{Schubert2022}
+% 
+%    \begin{align*}
+%       c^i_{nlm,k} & =\int d\textbf{r} g_{nl}(r)Y_{lm}(\theta,\varphi)\rho^i(\textbf{r}-\textbf{R}^i)                        \\
+%       p^i_{n_1n_2l,k_1k_2}         & =\pi \sqrt{\frac{8}{2l+1}}\sum\limits_m {c_{n_1lm,k_1}^{i *}}c_{n_2lm,k_2}^i \label{eq: power spectrum}
+%    \end{align*}
+% 
+%    % $g_{nl}$ = orthonormalised radial Gaussian basis functions
+% 
+%    % $Y_{lm}$ = spherical harmonics
+% 
+% \end{frame}
+% 
+% \begin{frame}{koopmans: the input file}
+%    \begin{minipage}[t]{0.475\columnwidth}
+%       \inputminted[fontsize=\tiny,breaklines,lastline=20]{json}{scripts/si.json}
+%    \end{minipage}
+%    \hspace{0.025\textwidth}
+%    \begin{minipage}[t]{0.475\columnwidth}
+%       \inputminted[fontsize=\tiny,breaklines,firstline=21]{json}{scripts/si.json}
+%    \end{minipage}
+% \end{frame}
+% 
+% % \begin{frame}{koopmans: the output file}
+% %    \vspace{-2ex}
+% %    \only<1>{
+% %       \inputminted[fontsize=\scriptsize,breaklines]{text}{scripts/si_ki_full.out}
+% %    }
+% %    \only<2>{
+% %       \inputminted[fontsize=\scriptsize,breaklines,firstline=25]{text}{scripts/si_ki_full.out}
+% %    }
+% %    \only<3>{
+% %       \inputminted[fontsize=\scriptsize,breaklines,firstline=50]{text}{scripts/si_ki_full.out}
+% %    }
+% %    \only<4>{
+% %       \inputminted[fontsize=\scriptsize,breaklines,firstline=75]{text}{scripts/si_ki_full.out}
+% %    }
+% % \end{frame}
+% 
+% \begin{frame}{koopmans is scriptable}
+%    \vspace{-2ex}
+%    \inputminted[fontsize=\scriptsize,breaklines]{python}{scripts/si.py}
+% \end{frame}
+% 
+% \backupend
 \end{document}
